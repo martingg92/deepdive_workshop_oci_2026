@@ -170,12 +170,12 @@ Este comando crea una tabla con la estructura requerida, con todas las columnas 
 
 ````BEGIN
   DBMS_CLOUD.COPY_DATA(
-    table_name => 'BRONZE_WC_MATCHES',
+    table_name      => 'BRONZE_WC_MATCHES',
     credential_name => NULL,
-    file_uri_list => 'https://objectstorage.us-chicago-1.oraclecloud.com/n/idajmumkp9ca/b/DeepDiveWorkshopData/o/worldcup_matches.csv',
-    format => json_object(
-        'type' value 'csv',
-        'skipheaders' value '1'
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/n/axzegnybkron/b/DeepDiveWorkshopData/o/worldcup_matches.csv',
+    format          => json_object(
+      'type' value 'CSV',
+      'skipheaders' value '1'
     )
   );
 END;
