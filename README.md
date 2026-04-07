@@ -945,12 +945,12 @@ En la consola web de OCI, navega hasta la pantalla principal de la base de datos
 En esta pantalla, haz clic en el botón **Database Actions**.
 Dentro del menú de Database Actions, presiona el botón **Data Load**.
 
-![Botón Data en Database Actions]<img src="/images/dpaf_image3.png" />
+<img src="/images/dpaf_image3.png" />
 
 
 Se abrirá un panel con el botón **Load Data**. Haz clic en él para continuar.
 
-![Botón Load Data]<img src="/images/dpaf_image4.png" />
+<img src="/images/dpaf_image4.png" />
 
 Verás un panel de carga donde puedes **arrastrar y soltar** tus archivos CSV, o hacer clic en **Select Files** para buscarlos manualmente.
 
@@ -961,7 +961,7 @@ Descarga los archivos CSV desde los siguientes enlaces:
 - [Link 2]()
 - [Link 3]()
 
-![Panel de arrastrar y soltar archivos]<img src="/images/dpaf_image6.png" />
+<img src="/images/dpaf_image6.png" />
 
 > **Nota:** Los archivos CSV pueden estar separados por `,` (coma) o por `;` (punto y coma). La plataforma intentará detectarlo automáticamente — verifica este ajuste en el siguiente paso.
 
@@ -969,7 +969,7 @@ Descarga los archivos CSV desde los siguientes enlaces:
 
 Una vez cargado el archivo, aparecerá un bloque con el nombre del CSV. Este nombre corresponderá al nombre de la tabla que se creará en la base de datos. Verás una advertencia que dice **Review Settings**.
 
-![Bloque de detección del dataset]<img src="/images/dpaf_image7.png" />
+<img src="/images/dpaf_image7.png" />
 
 Haz clic en **Review Settings** y verifica lo siguiente:
 
@@ -983,19 +983,19 @@ Corrige cualquier ajuste que sea necesario antes de continuar. Una vez que todo 
 
 Con la configuración validada, haz clic en el botón **Start** para iniciar la transferencia de datos a la base de datos.
 
-![Botón Start]<img src="/images/dpaf_image9.png" />
+<img src="/images/dpaf_image9.png" />
 
 ### Verificación de la carga exitosa
 
 Al finalizar, el bloque mostrará el nombre del CSV junto con el **número de columnas y filas** que se cargaron correctamente. Confirma que estos valores coincidan con los de tu archivo original.
 
-![Resumen de carga exitosa]<img src="/images/dpaf_image10.png" />
+<img src="/images/dpaf_image10.png" />
 
 ### Cierre del panel de carga
 
 Una vez verificada la carga, haz clic en el botón **Close** para finalizar el proceso.
 
-![Botón Close]<img src="/images/dpaf_image8.png" />
+<img src="/images/dpaf_image8.png" />
 
 Con esto concluye la carga de los datos en la base de datos, que servirán para alimentar el agente que construiremos en la plataforma **Database Private Agent Factory (DPAF)**.
 
@@ -1016,7 +1016,7 @@ Crea un nuevo Data Source de tipo **Database** completando el formulario con los
 - **Usuario:** `ADMIN`
 - **Contraseña:** la contraseña que definiste al crear la base de datos
 
-![Formulario de configuración del Data Source]<img src="/images/dpaf_image12.png" />
+<img src="/images/dpaf_image12.png" />
 
 Una vez completado el formulario, haz clic en **Test Connection** para validar que la conexión sea exitosa. Si la prueba es exitosa, presiona el botón **Add Database Source** para guardar la fuente de datos.
 
@@ -1028,9 +1028,9 @@ Si la configuración fue correcta, el nuevo Data Source aparecerá listado en el
 
 Vuelve al menú de navegación izquierdo y haz clic en **Data Analysis Agents**. Luego presiona el botón **Create Agent** para iniciar la configuración del agente.
 
-![Panel de Data Analysis Agents]<img src="/images/dpaf_image13.png" />
+<img src="/images/dpaf_image13.png" />
 
-![Botón Create Agent]<img src="/images/dpaf_image14.png" />
+<img src="/images/dpaf_image14.png" />
 
 ### Selección de la base de datos
 
@@ -1040,29 +1040,29 @@ En el formulario de creación del agente, selecciona la base de datos que acabas
 
 Utiliza la barra de búsqueda para encontrar y seleccionar las tablas que el agente utilizará. El nombre de cada tabla corresponde al nombre del archivo CSV cargado en el Paso 1 (sin la extensión `.csv`).
 
-![Barra de búsqueda de tablas]<img src="/images/dpaf_image15.png" />
+<img src="/images/dpaf_image15.png" />
 
-![Resultado de búsqueda — tabla "datos"]<img src="/images/dpaf_image16.png" />
+<img src="/images/dpaf_image16.png" />
 
 > **Ejemplo:** si el archivo se llamaba `datos.csv`, la tabla se llamará `datos`.
 
 Una vez seleccionadas todas las tablas necesarias, haz clic en el botón **Add New Source** para confirmar la selección y avanzar al siguiente paso.
 
-![Botón Add New Source]<img src="/images/dpaf_image17.png" />
+<img src="/images/dpaf_image17.png" />
 
 ### Revisión de la configuración del agente
 
 Revisa el resumen de configuración del agente. Verifica que la base de datos y las tablas seleccionadas sean correctas. Si todo está en orden, haz clic en **Next** para continuar.
 
-![Resumen de configuración del agente]<img src="/images/dpaf_image18.png" />
+<img src="/images/dpaf_image18.png" />
 
-![Botón Next]<img src="/images/dpaf_image20.png" />
+<img src="/images/dpaf_image20.png" />
 
 ### Publicación del agente
 
 Si la configuración está completa y validada, presiona el botón **Publish Agent** para publicar el agente y dejarlo disponible para su uso.
 
-![Botón Publish Agent]<img src="/images/dpaf_image19.png" />
+<img src="/images/dpaf_image19.png" />
 
 ### Acceso al agente publicado
 
@@ -1077,13 +1077,13 @@ Una vez publicado, el agente aparecerá listado en el panel de **Data Analysis A
 
 Al hacer clic en **Open Agent**, se abrirá el panel principal del agente, desde donde puedes interactuar con los datos cargados.
 
-![Panel principal del agente]<img src="/images/dpaf_image21.png" />
+<img src="/images/dpaf_image21.png" />
 
 ### Exploración automática de los datos
 
 Haz clic en el botón **Execute Exploration** para que el agente analice automáticamente los datos. Según los tipos de datos detectados en cada columna, el agente generará distintas visualizaciones y gráficas que te permitirán entender la distribución y estructura del dataset.
 
-![Exploración de datos con gráficas]<img src="/images/dpaf_image22.png" />
+<img src="/images/dpaf_image22.png" />
 
 ### Consulta de datos en lenguaje natural
 
