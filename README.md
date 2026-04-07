@@ -337,8 +337,12 @@ Con eso tendrás todos los notebooks necesarios para realizar las sesiones prác
 
 Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
 
+
 <a id="sec-3"></a>
-### Paso 3 - Creación de una red 
+### Paso 3 - Workshop AI Database Agent Factory 
+
+<a id="sec-3.1"></a>
+### Paso 3.1 - Creación de una red 
 
 En la consola de Oracle, podemos configurar una red virtual privada dentro de nuestro compartment.
 
@@ -366,7 +370,7 @@ Name: vcn-agent
 El resto de los valores pueden dejarse por defecto, al presionar Next y luego Create, podemos esperar unos segundos por la creación de la vcn.
 
 <a id="sec-3.1"></a>
-#### 3.1 Configuración de puertos
+####  Configuración de puertos
 
 Cuando la VCN se haya creado correctamente, en el panel Security podremos ver el bloque de listas de seguridad Security Lists
 
