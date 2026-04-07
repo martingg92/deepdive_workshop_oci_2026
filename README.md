@@ -342,7 +342,7 @@ Ahora tienes un entorno completamente configurado y puedes seguir las instruccio
 ### Paso 3 - Workshop AI Database Agent Factory 
 
 <a id="sec-3.1"></a>
-### Paso 3.1 - Creación de una red 
+#### 3.1 - Creación de una red 
 
 En la consola de Oracle, podemos configurar una red virtual privada dentro de nuestro compartment.
 
