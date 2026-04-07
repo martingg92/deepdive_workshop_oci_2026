@@ -1,4 +1,4 @@
-# Evento DeepDive Oracle
+<img width="365" height="94" alt="image" src="https://github.com/user-attachments/assets/5881d21c-84f3-408c-bd2e-0528db8ad92e" /># Evento DeepDive Oracle
 
 
 
@@ -19,6 +19,11 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 [3.1  Creación de una Red](#sec-3.1)  
 [3.2  Despliegue del Marketplace](#sec-3.2)  
 [3.3  Navegación por la Plataforma](#sec-3.3)  
+[3.4  Laboratorio: Construcción de un agente a partir de datos de partidos](#sec-3.4)  
+[3.4.1  Paso 1: Carga de los datos en la base de datos](#sec-3.4.1)  
+[3.4.2  Paso 2: Creación de un agente para análisis de datos](#sec-3.4.2)  
+[3.4.3  Paso 3: Uso del agente para análisis de datos](#sec-3.4.3)  
+
 
 ---
 <a id="sec-1"></a>
@@ -561,3 +566,535 @@ Al finalizar la instalación podemos observar una plataforma que se ve de la sig
 
 Ahora podemos construir nuestros propios flujos de inteligencia artificial.
 
+<a id="sec-3.4"></a>
+#### 3.4 Laboratorio: Construcción de un agente a partir de datos de partidos
+
+Los datos son uno de los activos más valiosos de cualquier organización, pero acceder a ellos de forma ágil e intuitiva sigue siendo un reto para muchos equipos. 🤔 En este laboratorio vas a construir un agente de análisis de datos sobre estadísticas históricas de la **Copa Mundial de Fútbol 2022** ⚽ — un agente que entiende preguntas en lenguaje natural, las traduce automáticamente a consultas SQL y te devuelve respuestas, tablas y visualizaciones al instante, sin que tengas que escribir una sola línea de código. 🚀
+
+---
+
+<a id="sec-3.4.1"></a>
+##### 3.4.1 Paso 1: Carga de los datos en la base de datos
+
+> Carga de datos Premier League de forma automática. 
+
+<details>
+<summary>📸 Creación y Cargas de datos PREMIER LEAGUE de forma automática </summary>
+
+```sql
+-- Script para Autonomous Database ejecutado con usuario ADMIN
+-- Ejecutar con F5
+
+SET DEFINE OFF;
+
+PROMPT === Eliminando tablas si existen ===
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE EVENT PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE MATCH PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE PREDICT_BY_ANGLE PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE XG_MATRIX PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE PLAYER_STATS PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+PROMPT === Creando tablas ===
+
+CREATE TABLE EVENT
+(
+  ID                            NUMBER(38,0),
+  MATCH_ID                      VARCHAR2(26 BYTE),
+  EVENT_ID                      NUMBER(38,0),
+  TYPE_ID                       NUMBER(38,0),
+  PERIOD_ID                     NUMBER(38,0),
+  TIME_MIN                      NUMBER(38,0),
+  TIME_SEC                      NUMBER(38,0),
+  MATCH_DATE                    DATE,
+  TEAM_ID                       VARCHAR2(26 BYTE),
+  X                             NUMBER(38,1),
+  Y                             NUMBER(38,1),
+  PLAYER_ID                     VARCHAR2(26 BYTE),
+  PLAYER_NAME                   VARCHAR2(26 BYTE),
+  PENALTY                       VARCHAR2(26 BYTE),
+  HEAD                          VARCHAR2(26 BYTE),
+  RIGHT_FOOTED                  VARCHAR2(26 BYTE),
+  OTHER_BODY_PART               VARCHAR2(26 BYTE),
+  REGULAR_PLAY                  VARCHAR2(26 BYTE),
+  FAST_BREAK                    VARCHAR2(26 BYTE),
+  SET_PIECE                     VARCHAR2(26 BYTE),
+  FROM_CORNER                   VARCHAR2(26 BYTE),
+  FREE_KICK                     VARCHAR2(26 BYTE),
+  OWN_GOAL                      VARCHAR2(26 BYTE),
+  ASSISTED                      VARCHAR2(26 BYTE),
+  LEFT_FOOTED                   VARCHAR2(26 BYTE),
+  TARGETED_LOW_LEFT             VARCHAR2(26 BYTE),
+  TARGETED_HIGH_LEFT            VARCHAR2(26 BYTE),
+  TARGETED_LOW_CENTER           VARCHAR2(26 BYTE),
+  TARGETED_HIGH_CENTER          VARCHAR2(26 BYTE),
+  TARGETED_LOW_RIGHT            VARCHAR2(26 BYTE),
+  TARGETED_HIGH_RIGHT           VARCHAR2(26 BYTE),
+  BLOCKED                       VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_LEFT           VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_RIGHT          VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_HIGH           VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_LEFT_AND_HIGH  VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_RIGHT_AND_HIGH VARCHAR2(26 BYTE),
+  PROJECTED_GOAL_MOUTH_Y        VARCHAR2(26 BYTE),
+  PROJECTED_GOAL_MOUTH_Z        VARCHAR2(26 BYTE),
+  DEFLECTION                    VARCHAR2(26 BYTE),
+  HIT_WOODWORK                  VARCHAR2(26 BYTE),
+  BIG_CHANCE                    VARCHAR2(26 BYTE),
+  INDIVIDUAL_CHANCE             VARCHAR2(26 BYTE),
+  HIT_RIGHT_POST                VARCHAR2(26 BYTE),
+  HIT_LEFT_POST                 VARCHAR2(26 BYTE),
+  HIT_BAR                       VARCHAR2(26 BYTE),
+  OUT_ON_SIDELINE               VARCHAR2(26 BYTE),
+  KICKOFF                       VARCHAR2(26 BYTE),
+  FIRST_TOUCH                   VARCHAR2(26 BYTE),
+  NOT_ASSISTED                  VARCHAR2(26 BYTE),
+  EVENT_TYPE_NAME               VARCHAR2(10 BYTE),
+  TEAM_NAME                     VARCHAR2(50 BYTE),
+  IS_GOAL                       VARCHAR2(1 BYTE),
+  GOAL_CNT                      NUMBER(1,0),
+  RESULT                        VARCHAR2(20 BYTE),
+  TEAM_SIDE                     VARCHAR2(4 BYTE),
+  X_REL_PC                      NUMBER,
+  Y_REL_PC                      NUMBER,
+  X_REL_M                       NUMBER,
+  Y_REL_M                       NUMBER,
+  X_REL_M_TEAM                  NUMBER,
+  Y_REL_M_TEAM                  NUMBER,
+  DISTANCE                      NUMBER,
+  DISTANCE_BUCKET               NUMBER,
+  EVENT_COUNT                   NUMBER,
+  FOOTBALL_PITCH_CELL           VARCHAR2(10 BYTE)
+);
+
+CREATE TABLE MATCH
+(
+  MATCH_ID       VARCHAR2(26 BYTE),
+  MATCH_DATE     DATE,
+  MATCH_TIME     VARCHAR2(26 BYTE),
+  TEAM_HOME_ID   VARCHAR2(26 BYTE),
+  TEAM_HOME_NAME VARCHAR2(26 BYTE),
+  TEAM_AWAY_ID   VARCHAR2(26 BYTE),
+  TEAM_AWAY_NAME VARCHAR2(26 BYTE),
+  VENUE          VARCHAR2(128 BYTE),
+  STATUS         VARCHAR2(26 BYTE),
+  WINNER         VARCHAR2(26 BYTE),
+  SCORE_HOME     NUMBER(38,0),
+  SCORE_AWAY     NUMBER(38,0),
+  NAME           VARCHAR2(100 BYTE),
+  NAME_DATE      VARCHAR2(100 BYTE)
+);
+
+CREATE TABLE PREDICT_BY_ANGLE
+(
+  ID             NUMBER,
+  ANGLE          NUMBER,
+  PREDICTED_GOAL VARCHAR2(1 BYTE),
+  XG             NUMBER
+);
+
+CREATE TABLE XG_MATRIX
+(
+  ID                 NUMBER,
+  X                  NUMBER,
+  Y                  NUMBER,
+  ANGLE              NUMBER,
+  HEAD               VARCHAR2(1 BYTE),
+  FAST_BREAK         VARCHAR2(1 BYTE),
+  PREDICTED_GOAL     VARCHAR2(1 BYTE),
+  XG                 NUMBER,
+  FOOTBALL_PITCH_CELL VARCHAR2(10 BYTE)
+);
+
+CREATE TABLE PLAYER_STATS
+(
+  PLAYER_ID   VARCHAR2(26 BYTE),
+  PLAYER_NAME VARCHAR2(26 BYTE),
+  TEAM_NAME   VARCHAR2(50 BYTE),
+  TOTAL_XG    NUMBER,
+  GOALS       NUMBER,
+  SHOT_COUNT  NUMBER,
+  XG_PER_SHOT NUMBER
+);
+
+-- Tabla de staging para EVENT (el CSV trae MATCH_DATE al final)
+CREATE TABLE EVENT_RAW
+(
+  ID                            VARCHAR2(100 BYTE),
+  MATCH_ID                      VARCHAR2(26 BYTE),
+  EVENT_ID                      VARCHAR2(100 BYTE),
+  TYPE_ID                       VARCHAR2(100 BYTE),
+  PERIOD_ID                     VARCHAR2(100 BYTE),
+  TIME_MIN                      VARCHAR2(100 BYTE),
+  TIME_SEC                      VARCHAR2(100 BYTE),
+  TEAM_ID                       VARCHAR2(26 BYTE),
+  X                             VARCHAR2(100 BYTE),
+  Y                             VARCHAR2(100 BYTE),
+  PLAYER_ID                     VARCHAR2(26 BYTE),
+  PLAYER_NAME                   VARCHAR2(26 BYTE),
+  PENALTY                       VARCHAR2(26 BYTE),
+  HEAD                          VARCHAR2(26 BYTE),
+  RIGHT_FOOTED                  VARCHAR2(26 BYTE),
+  OTHER_BODY_PART               VARCHAR2(26 BYTE),
+  REGULAR_PLAY                  VARCHAR2(26 BYTE),
+  FAST_BREAK                    VARCHAR2(26 BYTE),
+  SET_PIECE                     VARCHAR2(26 BYTE),
+  FROM_CORNER                   VARCHAR2(26 BYTE),
+  FREE_KICK                     VARCHAR2(26 BYTE),
+  OWN_GOAL                      VARCHAR2(26 BYTE),
+  ASSISTED                      VARCHAR2(26 BYTE),
+  LEFT_FOOTED                   VARCHAR2(26 BYTE),
+  TARGETED_LOW_LEFT             VARCHAR2(26 BYTE),
+  TARGETED_HIGH_LEFT            VARCHAR2(26 BYTE),
+  TARGETED_LOW_CENTER           VARCHAR2(26 BYTE),
+  TARGETED_HIGH_CENTER          VARCHAR2(26 BYTE),
+  TARGETED_LOW_RIGHT            VARCHAR2(26 BYTE),
+  TARGETED_HIGH_RIGHT           VARCHAR2(26 BYTE),
+  BLOCKED                       VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_LEFT           VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_RIGHT          VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_HIGH           VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_LEFT_AND_HIGH  VARCHAR2(26 BYTE),
+  TARGETED_CLOSE_RIGHT_AND_HIGH VARCHAR2(26 BYTE),
+  PROJECTED_GOAL_MOUTH_Y        VARCHAR2(26 BYTE),
+  PROJECTED_GOAL_MOUTH_Z        VARCHAR2(26 BYTE),
+  DEFLECTION                    VARCHAR2(26 BYTE),
+  HIT_WOODWORK                  VARCHAR2(26 BYTE),
+  BIG_CHANCE                    VARCHAR2(26 BYTE),
+  INDIVIDUAL_CHANCE             VARCHAR2(26 BYTE),
+  HIT_RIGHT_POST                VARCHAR2(26 BYTE),
+  HIT_LEFT_POST                 VARCHAR2(26 BYTE),
+  HIT_BAR                       VARCHAR2(26 BYTE),
+  OUT_ON_SIDELINE               VARCHAR2(26 BYTE),
+  KICKOFF                       VARCHAR2(26 BYTE),
+  FIRST_TOUCH                   VARCHAR2(26 BYTE),
+  NOT_ASSISTED                  VARCHAR2(26 BYTE),
+  EVENT_TYPE_NAME               VARCHAR2(10 BYTE),
+  TEAM_NAME                     VARCHAR2(50 BYTE),
+  IS_GOAL                       VARCHAR2(1 BYTE),
+  GOAL_CNT                      VARCHAR2(100 BYTE),
+  RESULT                        VARCHAR2(20 BYTE),
+  TEAM_SIDE                     VARCHAR2(4 BYTE),
+  X_REL_PC                      VARCHAR2(100 BYTE),
+  Y_REL_PC                      VARCHAR2(100 BYTE),
+  X_REL_M                       VARCHAR2(100 BYTE),
+  Y_REL_M                       VARCHAR2(100 BYTE),
+  X_REL_M_TEAM                  VARCHAR2(100 BYTE),
+  Y_REL_M_TEAM                  VARCHAR2(100 BYTE),
+  DISTANCE                      VARCHAR2(100 BYTE),
+  DISTANCE_BUCKET               VARCHAR2(100 BYTE),
+  EVENT_COUNT                   VARCHAR2(100 BYTE),
+  FOOTBALL_PITCH_CELL           VARCHAR2(10 BYTE),
+  MATCH_DATE_TXT                VARCHAR2(30 BYTE)
+);
+
+PROMPT === Cargando datos con DBMS_CLOUD.COPY_DATA ===
+
+BEGIN
+  DBMS_CLOUD.COPY_DATA(
+    credential_name => NULL,
+    table_name      => 'EVENT_RAW',
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/p/JdLwvG46w3Kjs8e0gieB6mKUZdZhGOo6KcNTZGTThF-0JAzRc7eOqGl4510aPgOO/n/idajmumkp9ca/b/labs-git/o/event.csv',
+    format          => '{"type":"csv","skipheaders":1,"delimiter":",","quote":"\"","characterset":"WE8MSWIN1252","blankasnull":true}'
+  );
+
+  INSERT INTO EVENT (
+    ID, MATCH_ID, EVENT_ID, TYPE_ID, PERIOD_ID, TIME_MIN, TIME_SEC, MATCH_DATE,
+    TEAM_ID, X, Y, PLAYER_ID, PLAYER_NAME, PENALTY, HEAD, RIGHT_FOOTED, OTHER_BODY_PART,
+    REGULAR_PLAY, FAST_BREAK, SET_PIECE, FROM_CORNER, FREE_KICK, OWN_GOAL, ASSISTED,
+    LEFT_FOOTED, TARGETED_LOW_LEFT, TARGETED_HIGH_LEFT, TARGETED_LOW_CENTER, TARGETED_HIGH_CENTER,
+    TARGETED_LOW_RIGHT, TARGETED_HIGH_RIGHT, BLOCKED, TARGETED_CLOSE_LEFT, TARGETED_CLOSE_RIGHT,
+    TARGETED_CLOSE_HIGH, TARGETED_CLOSE_LEFT_AND_HIGH, TARGETED_CLOSE_RIGHT_AND_HIGH,
+    PROJECTED_GOAL_MOUTH_Y, PROJECTED_GOAL_MOUTH_Z, DEFLECTION, HIT_WOODWORK, BIG_CHANCE,
+    INDIVIDUAL_CHANCE, HIT_RIGHT_POST, HIT_LEFT_POST, HIT_BAR, OUT_ON_SIDELINE, KICKOFF,
+    FIRST_TOUCH, NOT_ASSISTED, EVENT_TYPE_NAME, TEAM_NAME, IS_GOAL, GOAL_CNT, RESULT, TEAM_SIDE,
+    X_REL_PC, Y_REL_PC, X_REL_M, Y_REL_M, X_REL_M_TEAM, Y_REL_M_TEAM, DISTANCE,
+    DISTANCE_BUCKET, EVENT_COUNT, FOOTBALL_PITCH_CELL
+  )
+  SELECT
+    TO_NUMBER(ID DEFAULT NULL ON CONVERSION ERROR),
+    MATCH_ID,
+    TO_NUMBER(EVENT_ID DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(TYPE_ID DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(PERIOD_ID DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(TIME_MIN DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(TIME_SEC DEFAULT NULL ON CONVERSION ERROR),
+    TO_DATE(TRIM(MATCH_DATE_TXT) DEFAULT NULL ON CONVERSION ERROR, 'DD-MON-RR'),
+    TEAM_ID,
+    TO_NUMBER(X DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(Y DEFAULT NULL ON CONVERSION ERROR),
+    PLAYER_ID, PLAYER_NAME, PENALTY, HEAD, RIGHT_FOOTED, OTHER_BODY_PART,
+    REGULAR_PLAY, FAST_BREAK, SET_PIECE, FROM_CORNER, FREE_KICK, OWN_GOAL, ASSISTED,
+    LEFT_FOOTED, TARGETED_LOW_LEFT, TARGETED_HIGH_LEFT, TARGETED_LOW_CENTER, TARGETED_HIGH_CENTER,
+    TARGETED_LOW_RIGHT, TARGETED_HIGH_RIGHT, BLOCKED, TARGETED_CLOSE_LEFT, TARGETED_CLOSE_RIGHT,
+    TARGETED_CLOSE_HIGH, TARGETED_CLOSE_LEFT_AND_HIGH, TARGETED_CLOSE_RIGHT_AND_HIGH,
+    PROJECTED_GOAL_MOUTH_Y, PROJECTED_GOAL_MOUTH_Z, DEFLECTION, HIT_WOODWORK, BIG_CHANCE,
+    INDIVIDUAL_CHANCE, HIT_RIGHT_POST, HIT_LEFT_POST, HIT_BAR, OUT_ON_SIDELINE, KICKOFF,
+    FIRST_TOUCH, NOT_ASSISTED, EVENT_TYPE_NAME, TEAM_NAME, IS_GOAL,
+    TO_NUMBER(GOAL_CNT DEFAULT NULL ON CONVERSION ERROR),
+    RESULT, TEAM_SIDE,
+    TO_NUMBER(X_REL_PC DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(Y_REL_PC DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(X_REL_M DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(Y_REL_M DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(X_REL_M_TEAM DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(Y_REL_M_TEAM DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(DISTANCE DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(DISTANCE_BUCKET DEFAULT NULL ON CONVERSION ERROR),
+    TO_NUMBER(EVENT_COUNT DEFAULT NULL ON CONVERSION ERROR),
+    FOOTBALL_PITCH_CELL
+  FROM EVENT_RAW;
+
+  DBMS_CLOUD.COPY_DATA(
+    credential_name => NULL,
+    table_name      => 'MATCH',
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/p/bwcwEtC52h5gfON0nYqVOhDqPrH3hZT8Ck58bPmCKECLKHRrM5xY4265r1EOaz20/n/idajmumkp9ca/b/labs-git/o/match.csv',
+    format          => '{"type":"csv","skipheaders":1,"delimiter":",","quote":"\"","characterset":"WE8MSWIN1252","dateformat":"DD-MON-RR","blankasnull":true}'
+  );
+
+  DBMS_CLOUD.COPY_DATA(
+    credential_name => NULL,
+    table_name      => 'PLAYER_STATS',
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/p/GSZXJEJkuXJjqhlHXxnm04kWX4OlnISgWVqtrVxxKLVm8pD36XO2oUj6h7unKLtw/n/idajmumkp9ca/b/labs-git/o/player_stats.csv',
+    format          => '{"type":"csv","skipheaders":1,"delimiter":",","quote":"\"","characterset":"WE8MSWIN1252","blankasnull":true}'
+  );
+
+  DBMS_CLOUD.COPY_DATA(
+    credential_name => NULL,
+    table_name      => 'PREDICT_BY_ANGLE',
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/p/HIHoQBesfjAFk2Ekrq279NoBnrMozXvkTFxjtLXyVJlNx1zXapjX93X4t0y-REL-/n/idajmumkp9ca/b/labs-git/o/predict_by_angle.csv',
+    format          => '{"type":"csv","skipheaders":1,"delimiter":",","quote":"\"","characterset":"WE8MSWIN1252","blankasnull":true}'
+  );
+
+  DBMS_CLOUD.COPY_DATA(
+    credential_name => NULL,
+    table_name      => 'XG_MATRIX',
+    file_uri_list   => 'https://objectstorage.us-chicago-1.oraclecloud.com/p/nBNu_bNLWfWpha7W92NQnqo7AIcMuatbtiIbGfJe9i5sytXEXC9mq4xbpDFaHO2Q/n/idajmumkp9ca/b/labs-git/o/xg_matrix.csv',
+    format          => '{"type":"csv","skipheaders":1,"delimiter":",","quote":"\"","characterset":"WE8MSWIN1252","blankasnull":true}'
+  );
+END;
+/
+
+PROMPT === Validar errores de carga (si existen) ===
+SELECT * FROM USER_LOAD_OPERATIONS ORDER BY ID DESC FETCH FIRST 10 ROWS ONLY;
+
+DROP TABLE EVENT_RAW PURGE;
+
+COMMIT;
+
+PROMPT === Carga finalizada ===
+
+```
+
+
+</details>
+
+<details>
+<summary>📸 Carga de documentos de forma manual </summary>
+
+
+
+
+### Acceso a la pantalla principal
+
+En la consola web de OCI, navega hasta la pantalla principal de la base de datos.
+En esta pantalla, haz clic en el botón **Database Actions**.
+Dentro del menú de Database Actions, presiona el botón **Data Load**.
+
+![Botón Data en Database Actions]<img src="/images/dpaf_image3.png" />
+
+
+Se abrirá un panel con el botón **Load Data**. Haz clic en él para continuar.
+
+![Botón Load Data]<img src="/images/dpaf_image4.png" />
+
+Verás un panel de carga donde puedes **arrastrar y soltar** tus archivos CSV, o hacer clic en **Select Files** para buscarlos manualmente.
+
+
+Descarga los archivos CSV desde los siguientes enlaces:
+
+- [Link 1]()
+- [Link 2]()
+- [Link 3]()
+
+![Panel de arrastrar y soltar archivos]<img src="/images/dpaf_image6.png" />
+
+> **Nota:** Los archivos CSV pueden estar separados por `,` (coma) o por `;` (punto y coma). La plataforma intentará detectarlo automáticamente — verifica este ajuste en el siguiente paso.
+
+### Revisión de la configuración del dataset
+
+Una vez cargado el archivo, aparecerá un bloque con el nombre del CSV. Este nombre corresponderá al nombre de la tabla que se creará en la base de datos. Verás una advertencia que dice **Review Settings**.
+
+![Bloque de detección del dataset]<img src="/images/dpaf_image7.png" />
+
+Haz clic en **Review Settings** y verifica lo siguiente:
+
+- ✅ Los datos se cargaron correctamente
+- ✅ Los tipos de datos de cada columna se detectaron de forma correcta
+- ✅ El separador del CSV fue identificado correctamente (`,`,`;`, etc...)
+
+Corrige cualquier ajuste que sea necesario antes de continuar. Una vez que todo esté en orden, la advertencia **Review Settings** desaparecerá del bloque.
+
+### Ejecución de la carga
+
+Con la configuración validada, haz clic en el botón **Start** para iniciar la transferencia de datos a la base de datos.
+
+![Botón Start]<img src="/images/dpaf_image9.png" />
+
+### Verificación de la carga exitosa
+
+Al finalizar, el bloque mostrará el nombre del CSV junto con el **número de columnas y filas** que se cargaron correctamente. Confirma que estos valores coincidan con los de tu archivo original.
+
+![Resumen de carga exitosa]<img src="/images/dpaf_image10.png" />
+
+### Cierre del panel de carga
+
+Una vez verificada la carga, haz clic en el botón **Close** para finalizar el proceso.
+
+![Botón Close]<img src="/images/dpaf_image8.png" />
+
+Con esto concluye la carga de los datos en la base de datos, que servirán para alimentar el agente que construiremos en la plataforma **Database Private Agent Factory (DPAF)**.
+
+---
+
+</details>
+
+<a id="sec-3.4.2"></a>
+##### 3.4.2 Paso 2: Creación de un agente para análisis de datos
+
+Ingresa a la plataforma **Database Private Agent Factory (DPAF)**, que ya fue desplegada previamente. En el panel de navegación izquierdo, selecciona la opción **Data Source**.
+
+Crea un nuevo Data Source de tipo **Database** completando el formulario con los siguientes campos:
+
+- **Nombre:** un nombre descriptivo para identificar la conexión
+- **Descripción:** una breve descripción del propósito de esta fuente de datos
+- **Tipo de conexión:** carga la Wallet que descargaste al crear la base de datos
+- **Usuario:** `ADMIN`
+- **Contraseña:** la contraseña que definiste al crear la base de datos
+
+![Formulario de configuración del Data Source]<img src="/images/dpaf_image12.png" />
+
+Una vez completado el formulario, haz clic en **Test Connection** para validar que la conexión sea exitosa. Si la prueba es exitosa, presiona el botón **Add Database Source** para guardar la fuente de datos.
+
+### Verificación del Data Source creado
+
+Si la configuración fue correcta, el nuevo Data Source aparecerá listado en el panel de **Data Source** del menú izquierdo.
+
+### Creación del agente de análisis
+
+Vuelve al menú de navegación izquierdo y haz clic en **Data Analysis Agents**. Luego presiona el botón **Create Agent** para iniciar la configuración del agente.
+
+![Panel de Data Analysis Agents]<img src="/images/dpaf_image13.png" />
+
+![Botón Create Agent]<img src="/images/dpaf_image14.png" />
+
+### Selección de la base de datos
+
+En el formulario de creación del agente, selecciona la base de datos que acabas de configurar como fuente de datos.
+
+### Selección de tablas
+
+Utiliza la barra de búsqueda para encontrar y seleccionar las tablas que el agente utilizará. El nombre de cada tabla corresponde al nombre del archivo CSV cargado en el Paso 1 (sin la extensión `.csv`).
+
+![Barra de búsqueda de tablas]<img src="/images/dpaf_image15.png" />
+
+![Resultado de búsqueda — tabla "datos"]<img src="/images/dpaf_image16.png" />
+
+> **Ejemplo:** si el archivo se llamaba `datos.csv`, la tabla se llamará `datos`.
+
+Una vez seleccionadas todas las tablas necesarias, haz clic en el botón **Add New Source** para confirmar la selección y avanzar al siguiente paso.
+
+![Botón Add New Source]<img src="/images/dpaf_image17.png" />
+
+### Revisión de la configuración del agente
+
+Revisa el resumen de configuración del agente. Verifica que la base de datos y las tablas seleccionadas sean correctas. Si todo está en orden, haz clic en **Next** para continuar.
+
+![Resumen de configuración del agente]<img src="/images/dpaf_image18.png" />
+
+![Botón Next]<img src="/images/dpaf_image20.png" />
+
+### Publicación del agente
+
+Si la configuración está completa y validada, presiona el botón **Publish Agent** para publicar el agente y dejarlo disponible para su uso.
+
+![Botón Publish Agent]<img src="/images/dpaf_image19.png" />
+
+### Acceso al agente publicado
+
+Una vez publicado, el agente aparecerá listado en el panel de **Data Analysis Agents** del menú izquierdo. Haz clic en **Open Agent** para acceder a él y comenzar a utilizarlo.
+
+---
+
+<a id="sec-3.4.3"></a>
+##### 3.4.3 Paso 3 — Uso del agente para análisis de datos
+
+### Apertura del agente
+
+Al hacer clic en **Open Agent**, se abrirá el panel principal del agente, desde donde puedes interactuar con los datos cargados.
+
+![Panel principal del agente]<img src="/images/dpaf_image21.png" />
+
+### Exploración automática de los datos
+
+Haz clic en el botón **Execute Exploration** para que el agente analice automáticamente los datos. Según los tipos de datos detectados en cada columna, el agente generará distintas visualizaciones y gráficas que te permitirán entender la distribución y estructura del dataset.
+
+![Exploración de datos con gráficas]<img src="/images/dpaf_image22.png" />
+
+### Consulta de datos en lenguaje natural
+
+Puedes hacerle preguntas al agente directamente en lenguaje natural. El agente interpretará tu pregunta, generará una consulta SQL sobre la base de datos y te devolverá la respuesta.
+
+> **Ejemplo:** si preguntas *"¿Cuántos equipos participaron?"*, el agente consultará la base de datos y responderá con el número de equipos.
+
+### Visualización de la consulta SQL generada
+
+Para ver la consulta SQL que el agente ejecutó para responder tu pregunta, haz clic en el botón **SQL**. Esto te permite auditar y entender cómo el agente traduce las preguntas a consultas sobre la base de datos.
+
+---
+
+<!-- PASO 4 — CONTINÚA AQUÍ -->
