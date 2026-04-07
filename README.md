@@ -48,13 +48,13 @@ Verifica que estés en el compartimento correcto (puedes crearla en cualquiera) 
 
 
 
-En la pantalla de creación, agrega el nombre de tu base de datos autónoma como `DeepDiveAutonomousDatabase` en ambos campos. Elige la opción Transaction Processing para el tipo de base de datos.
-
 <img width="1896" height="972" alt="image-4" src="/images/59a45429-a30c-40ce-8695-a4af0f58eea6" />
 
-Desplázate un poco más abajo y selecciona la versión de base de datos `26ai` y almacenamiento de 100GB en la configuración.
+En la pantalla de creación de la base de datos completa los siguientes campos.
 
 ```sql
+Display name: DeepDiveAutonomousDatabase
+Database name: DeepDiveAutonomousDatabase
 Workload type: Transaction Processing
 Database version: 26ai ⚠️ Importante. Muchas características de IA están soportadas desde la versión 23ai
 ECPU Count: 4 Recomendamos un número mayor a 2
@@ -110,11 +110,8 @@ En la pantalla de creación vamos a completar algunas propiedades. Primero agreg
 
 <img width="1892" height="977" alt="image-14" src="/images/db01d12a-662e-4b65-9446-9c2a7f60f388" />
 
-Baja en la pantalla, selecciona la opción ALH para crear uno nuevo y agrega una contraseña para la plataforma. Recomendamos usar la misma del Autonomous para facilitar el proceso.
 
-<img width="1447" height="558" alt="image-15" src="/images/0d92b281-53e8-4f68-88f6-9f353f161077" />
-
-Para finalizar, selecciona la opción Standard en políticas de seguridad y haz clic en el botón de creación para confirmar la configuración.
+Para finalizar, selecciona la opción Standard en políticas de seguridad, presiona `Add` y haz clic en el botón de creación para confirmar la configuración.
 
 <img width="1906" height="885" alt="image-16" src="/images/e11fe0a0-6f83-4f4c-b8de-1a45506f9f9f" />
 
@@ -197,7 +194,8 @@ Ejecuta el comando con el botón verde `Run Statement`.
 
 Este comando crea una tabla con la estructura requerida, con todas las columnas y tipos listados. Luego copiaremos los datos a la tabla ejecutando el siguiente comando:
 
-````BEGIN
+````
+BEGIN
   DBMS_CLOUD.COPY_DATA(
     table_name      => 'BRONZE_WC_MATCHES',
     credential_name => NULL,
@@ -250,7 +248,7 @@ Esta es la página principal de AIDP. En el menú lateral ya puedes ver tu catá
 
 
 <a id="sec-2.3"></a>
-#### 2.3 Creación de un catálogo dentro de AIDP
+#### 2.3 Creación de los catalogos dentro de AIDP
 
 
 Primero crearemos un catálogo apuntando al Autonomous que creamos antes. Para ello, haz clic en `create` en el menú lateral.
@@ -258,7 +256,20 @@ Primero crearemos un catálogo apuntando al Autonomous que creamos antes. Para e
 <img width="1547" height="463" alt="image-28" src="/images/1f78b5f4-13cc-434e-a379-fc297cdc8ade" />
 
 
-El nombre de nuestro catálogo será `DeepDiveCatalog_Bronze` y usaremos conexión externa, seleccionando el Autonomous previamente creado. Completa el resto de la información como en la imagen.
+El nombre de nuestro catálogo será `DeepDiveCatalog_Bronze` y usaremos conexión externa, seleccionando el Autonomous previamente creado. 
+Completa los campos de la siguiente forma y como se muestra en la imagen.
+
+```
+Catalog name: DeepDiveCatalog_Bronze
+Description: descripcion
+Catalog type: External catalog
+External source type: Oracle Autonomous AI Transaction Processing
+External source method: Wallet
+Selected file: Wallet_ABC.zip
+Service: deepdiveautonomousdatabase_high
+Wallet password (optional): ••••••••••••••••
+Username: Admin
+```
 
 <img width="1905" height="1026" alt="image-30" src="/images/03d7af96-a415-4f3a-80e7-184ae9704bd9" />
 
@@ -277,6 +288,24 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 
 <img width="368" height="175" alt="image-34" src="/images/7e69ac71-f59a-49a9-a180-7dacf528a33a" />
 
+Después de crear el catalogo, crearemos catalogos standard de plata y oro con los siguientes datos
+
+```
+Catalog name: deepdivecatalog_prata
+Description: descripción
+Catalog type: Standard catalog
+``` 
+
+```
+Catalog name: deepdivecatalog_ouro
+Description: descripción
+Catalog type: Standard catalog
+``` 
+
+<img width="368" height="175" alt="image-34" src="./images/image 41.png" />
+
+<img width="368" height="175" alt="image-34" src="./images/image 42.png" />
+
 
 <a id="sec-2.4"></a>
 #### 2.4 Importación del notebook del laboratorio en el workspace
@@ -289,17 +318,19 @@ Para importar el notebook, primero accede al workspace desde el menú lateral.
 
 El workspace ya trae una carpeta llamada `Shared` con ejemplos. Para importar el notebook del laboratorio, primero debes descargarlo en tu máquina. Luego haz clic en el botón de upload (icono indicado en la imagen).
 
-<img width="1907" height="432" alt="image-37" src="/images/37850300-084e-432b-84d9-7fd5cc83948a" />
+Carga los notebooks que puedes descargar en los siguientes links [notebook 1](./session1-AIDP-ES.ipynb), [notebook 2](./session2-AI_tradicional-ES.ipynb).
+
+<img width="1907" height="432" alt="image-37" src="./images/37850300-084e-432b-84d9-7fd5cc83948a" />
 
 
-Busca el archivo en tu repositorio y haz clic en upload para subirlo.
+Busca el archivo en tu carpeta de descargas y haz clic en upload para subirlo.
 
-<img width="1237" height="1017" alt="image-38" src="/images/c48bb726-67b4-4d90-b247-7292d708466a" />
+<img width="1237" height="1017" alt="image-38" src="./images/c48bb726-67b4-4d90-b247-7292d708466a" />
 
 
 El archivo se agregará inmediatamente al workspace. Ya puedes abrirlo haciendo clic en el nombre del notebook.
 
-<img width="800" height="88" alt="image-39" src="/images/0a94086a-bf69-4213-ad3f-1a511f3e2702" />
+<img width="800" height="88" alt="image-39" src="./images/0a94086a-bf69-4213-ad3f-1a511f3e2702" />
 
 
 Al abrir el notebook, en la parte superior central verás `no cluster attached`. Llegamos así al último paso de configuración para poder realizar todos los laboratorios de las sesiones 1 y 2: crear el cluster. Haz clic en el botón de cluster (arriba a la derecha) y luego en `Create Cluster`.
@@ -319,23 +350,10 @@ Espera a que el cluster se cree. Si no se adjunta automáticamente al notebook, 
 
 Hasta que el cluster quede activo en el notebook.
 
-<img width="505" height="74" alt="image-44" src="/images/ac673755-9172-4751-b9db-e974a39baa82" /> <img width="490" height="77" alt="image-45" src="/images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" />
+<img width="505" height="74" alt="image-44" src="./images/ac673755-9172-4751-b9db-e974a39baa82" /> <img width="490" height="77" alt="image-45" src="/images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" />
 
 <a id="sec-2.5"></a>
-#### 2.5 Importación del notebook para la sesión 2
 
-
-Repite el mismo proceso de upload para el archivo Jupyter de la segunda sesión.
-
-<img width="1238" height="1017" alt="image-46" src="/images/23809cbb-1f90-45de-8fa2-7d45708e4cf1" />
-
-
-Con eso tendrás todos los notebooks necesarios para realizar las sesiones prácticas directamente en tu workspace.
-
-<img width="1646" height="437" alt="image-47" src="/images/c2e2771f-911f-41aa-bf37-1db0d766338a" />
-
-
-Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
 
 
 <a id="sec-3"></a>
