@@ -45,7 +45,13 @@ En la pantalla de creación, agrega el nombre de tu base de datos autónoma como
 
 Desplázate un poco más abajo y selecciona la versión de base de datos `26ai` y almacenamiento de 100GB en la configuración.
 
-<img width="1463" height="471" alt="image-5" src="/images/39f0ac5d-5c1f-46c1-8122-98a2bce13c05" />
+```sql
+Workload type: Transaction Processing
+Database version: 26ai ⚠️ Importante. Muchas características de IA están soportadas desde la versión 23ai
+ECPU Count: 4 Recomendamos un número mayor a 2
+Storage: Desde 256GB será suficiente para el demo
+Access type: Secure Access from Everywhere
+```
 
 <img width="1302" height="372" alt="image-6" src="/images/a5ba0ac6-e375-4684-9aba-53884ac32d35" />
 
