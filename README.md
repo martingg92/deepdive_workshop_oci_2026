@@ -73,15 +73,15 @@ Espera hasta que el aprovisionamiento finalice y la base de datos quede activa.
 <img width="1883" height="431" alt="image-9" src="/images/0df54478-57a7-4591-bc1c-fc7a4896d838" />
 
 <a id="sec-1.2"></a>
-#### 1.2 CDescarga de la Wallet
+#### 1.2 Descarga de la Wallet
 
 En la página de la base de datos, junto al botón Database actions, encontramos el botón de conexiones. 
 
-![image.png](src="/images/image 6.png")
+<img src="/images/image 6.png" />
 
 Aquí podremos descargar la Wallet
 
-![image.png](src="/images/image 7.png")
+<img src="/images/image 7.png" />
 
 Este paso pedirá una contraseña, puede ser la misma contraseña que proporcionamos al crear la base de datos. Si todo se ejecutó correctamente, un archivo .zip será descargado.
 
