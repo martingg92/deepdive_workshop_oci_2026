@@ -288,7 +288,19 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 
 <img width="368" height="175" alt="image-34" src="/images/7e69ac71-f59a-49a9-a180-7dacf528a33a" />
 
-Después de crear el catalogo, crearemos catalogos de plata y bronze
+Después de crear el catalogo, crearemos catalogos standard de plata y oro con los siguientes datos
+
+```
+Catalog name: deepdivecatalog_prata
+Description: descripción
+Catalog type: Standard catalog
+``` 
+
+```
+Catalog name: deepdivecatalog_ouro
+Description: descripción
+Catalog type: Standard catalog
+``` 
 
 <img width="368" height="175" alt="image-34" src="./images/image 41.png" />
 
