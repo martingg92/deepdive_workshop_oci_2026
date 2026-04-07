@@ -7,7 +7,8 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 ## Contenido
 [1  Creación y configuración del entorno](#sec-1)  
 [1.1  Creación de la Autonomous AI Database](#sec-1.1)  
-[1.2  Creación de AI Data Platform](#sec-1.2)  
+[1.2  Creación de la Wallet](#sec-1.2) 
+[1.3  Creación de AI Data Platform](#sec-1.3)  
 [2  Ingesta de datos](#sec-2)  
 [2.1  Ingesta de datos vía Autonomous](#sec-2.1)  
 [2.2  Ingesta de datos vía AIDP](#sec-2.2)  
