@@ -15,7 +15,10 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 [2.3  Creación de un catálogo dentro de AIDP](#sec-2.3)  
 [2.4  Importación del notebook del laboratorio en el workspace](#sec-2.4)  
 [2.5  Importación del notebook para la sesión 2](#sec-2.5)  
-
+[3  Workshop AI Database Agent Factory](#sec-3)  
+[3.1  Creación de una Red](#sec-3.1)  
+[3.2  Despliegue del Marketplace](#sec-3.2)  
+[3.3  Navegación por la Plataforma](#sec-3.3)  
 
 ---
 <a id="sec-1"></a>
