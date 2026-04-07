@@ -1,4 +1,4 @@
-<img width="365" height="94" alt="image" src="https://github.com/user-attachments/assets/5881d21c-84f3-408c-bd2e-0528db8ad92e" /># Evento DeepDive Oracle
+# Evento DeepDive Oracle
 
 
 
