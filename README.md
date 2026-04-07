@@ -469,7 +469,8 @@ Agent Factory server shape: VM.Standard.E5.Flex
 > Para la instalacion es requerida una llave publica, si no lo tienes puedes generarla asi:
 
 
-<summary>📸 Generacion de Llaves privadas/publicas </summary>
+<summary>📸 **Generacion de Llaves privadas/publicas** </summary>
+
 
 Abre una ventana de Powershell en la carpeta donde se desee generar las llaves, luego ejecuta el siguiente comando:
 ```powershell
