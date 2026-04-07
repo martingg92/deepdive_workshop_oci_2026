@@ -332,5 +332,231 @@ Con eso tendrás todos los notebooks necesarios para realizar las sesiones prác
 
 Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
 
+<a id="sec-3"></a>
+### Paso 3 - Creación de una red 
 
+En la consola de Oracle, podemos configurar una red virtual privada dentro de nuestro compartment.
+
+<aside>
+💡
+
+Networking > Virtual Cloud Networks
+
+</aside>
+
+Es importante seleccionar nuestro compartment, una vez seleccionado procedemos a la creación.
+
+<img src="/images/image 8.png" />
+
+Vamos a crear una red con acceso a internet
+
+<img src="/images/image 9.png" />
+
+En la creación solamente debemos seleccionar un nombre
+
+```sql
+Name: vcn-agent
+```
+
+El resto de los valores pueden dejarse por defecto, al presionar Next y luego Create, podemos esperar unos segundos por la creación de la vcn.
+
+<a id="sec-3.1"></a>
+#### 3.1 Configuración de puertos
+
+Cuando la VCN se haya creado correctamente, en el panel Security podremos ver el bloque de listas de seguridad Security Lists
+
+<img src="/images/image 10.png" />
+
+Podemos seleccionar la lista de seguridad por default, su nombre empezará por el texto Default Security List for …
+
+<img src="/images/image 11.png" />
+
+Dentro de la lista se seguridad podemos navegar a Security rules, en donde debemos agregar las reglas de ingreso
+
+<img src="/images/image 12.png" />
+
+<img src="/images/image 13.png" />
+
+Agregaremos las siguientes reglas:
+
+<img src="/images/image 14.png" />
+
+```sql
+Source CIDR: 0.0.0.0/0
+Destination Port Range: 8080
+```
+
+<img src="/images/image 15.png" />
+
+```sql
+Source CIDR: 0.0.0.0/0
+Destination Port Range: 1521
+```
+
+Para confirmar la creación seleccionamos Add Ingress Rules
+
+<img src="/images/image 16.png" />
+
+<a id="sec-3.2"></a>
+#### 3.2 Despliegue del marketplace
+
+[Link Marketplace](https://marketplace.oracle.com/listings/201588705 "Link Marketplace")
+
+
+</details>
+
+Ahora vamos a navegar hasta el marketplace, en la consola de Oracle podemos navegar a
+
+<aside>
+💡
+
+Marketplace > All Applications
+
+</aside>
+
+Allí veremos una barra de búsqueda
+
+<img src="/images/image 17.png" />
+
+En donde podemos buscar la siguiente aplicación
+
+```sql
+Oracle AI Database Private Agent Factory
+```
+
+<img src="/images/image 18.png" />
+
+Aquí podemos seleccionar la app y crear el stack
+
+<img src="/images/image 19.png" />
+
+Es importante seleccionar nuestro compartment, una vez seleccionado procedemos a la creación.
+
+<img src="/images/image 20.png" />
+
+Para el lanzamiento del stack hay 3 steps.
+
+> 1️⃣ Stack information
+
+En el primer paso solamente tenemos que especificar un nombre y una descripción. Podemos dejar la descripción por defecto.
+
+> 2️⃣ Configure variables
+
+En el segundo paso hay tres bloques.
+
+**General settings**
+```
+Region: us-chicago-1
+VM compartment: El compartment que creamos previamente.
+Subnet compartment: El compartment que creamos previamente. 
+```
+
+**Network Configuration**
+```sql
+VCN: La VCN creada previamente
+Existing subnet: La subred pública
+Public or Private subnet: public
+```
+
+**Agent Factory VM**
+```
+Agent Factory server display name: AgentFactoryVM
+Agent Factory server shape: VM.Standard.E5.Flex
+```
+
+**Public ssh key file**
+
+> Para la instalacion es requerida una llave publica, si no lo tienes puedes generarla asi:
+
+<details>
+<summary>📸 Generacion de Llaves privadas/publicas </summary>
+
+Abre una ventana de Powershell en la carpeta donde se desee generar las llaves, luego ejecuta el siguiente comando:
+```powershell
+ssh-keygen -t rsa -b 4096 -f .\oraclelabs
+```
+
+
+- Agrega la llave `publica` , esta llave termina en .pub. Windows puede confundir la extensión como parte de Microsoft Publisher.
+
+<img src="/images/image 39.png" />
+
+Este step toma 3 o 4 minutos.
+
+El botón de creación nos lleva a la página del Stack en donde podemos ver los jobs de ejecución, si todo se ejecutó correctamente el último log mostrará un link.
+
+> 3️⃣ Review
+
+En este paso debemos revisar la configuración, si todo está bien, podemos lanzar el stack.
+
+
+### Paso 6.1: Registro y conexión
+
+Al ingresar al link tenemos una página de registro
+
+<img src="/images/image 25.png" />
+
+Después del registro podemos realizar la conexión a la base de datos, para esto usaremos la wallet descargada.
+
+<img src="/images/image 26.png" />
+
+Usemos la siguiente configuración para la wallet.
+
+```
+Air-gapped environment: No
+Does the database server use a wallet? Yes
+Are the OCI certificates added to the wallet? Yes
+```
+
+
+Al testear la conexión aparecerá un mensaje de conexión exitosa si la conexión a la base de datos fue exitosa.
+
+<img src="/images/image 27.png" />
+
+Al presionar siguiente podemos ver los logs de instalación.
+
+En el paso 4 será necesario configurar el modelo de lenguaje
+
+<img src="/images/image 28.png" />
+
+
+
+```yaml
+Model id: meta.llama-4-maverick-17b-128e-instruct-fp8 # o cualquier modelo disponible en https://cloud.oracle.com/ai-service/generative-ai/playground/chat
+Endpoint: https://inference.generativeai.us-chicago-1.oci.oraclecloud.com # Cambiar según la región
+Compartment ID: ocid1.compartment... # Id del compartment creado. Disponible en Identity and Security > Compartments
+User ID: ocid1.user.oc1... # User id. Disponible en Identity > My profile 
+
+```
+
+<img src="/images/image 29.png" />
+
+Al hacer scroll hacia abajo aparecerá la opción de agregar modelos de embeddings
+
+<img src="/images/image 30.png" />
+
+Al seleccionar OCI Gen AI, aparecerá un formulario parecido al anterior, aquí cambiará únicamente el id del modelo
+
+```yaml
+Model id: cohere.embed-multilingual-image-v3.0 # o cualquier modelo disponible en https://cloud.oracle.com/ai-service/generative-ai/playground/embed
+Endpoint: https://inference.generativeai.us-chicago-1.oci.oraclecloud.com # Cambiar según la región
+Compartment ID: ocid1.compartment... # Id del compartment creado. Disponible en Identity and Security > Compartments
+User ID: ocid1.user.oc1... # User id. Disponible en Identity > My profile 
+
+```
+
+Al completar los campos y si las conexiones son exitosas, podemos continuar la instalación
+
+<img src="/images/image 31.png" />
+
+<img src="/images/image 32.png" />
+
+<a id="sec-3.3"></a>
+#### 3.3 Navegación por la plataforma
+
+Al finalizar la instalación podemos observar una plataforma que se ve de la siguiente manera.
+
+<img src="/images/dpaf home.png" />
+
+Ahora podemos construir nuestros propios flujos de inteligencia artificial.
 
