@@ -318,7 +318,7 @@ Para importar el notebook, primero accede al workspace desde el menú lateral.
 
 El workspace ya trae una carpeta llamada `Shared` con ejemplos. Para importar el notebook del laboratorio, primero debes descargarlo en tu máquina. Luego haz clic en el botón de upload (icono indicado en la imagen).
 
-Carga los notebooks que puedes descargar en los siguientes links [notebook 1](./session1-AIDP-ES.ipynb), [notebook 2](./session2-AI_tradicional-ES.ipynb).
+Carga los notebooks que puedes descargar en el repo del Git. 
 
 <img width="1907" height="432" alt="image-37" src="./images/37850300-084e-432b-84d9-7fd5cc83948a" />
 
