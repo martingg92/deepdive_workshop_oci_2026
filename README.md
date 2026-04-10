@@ -491,6 +491,8 @@ Agent Factory server display name: AgentFactoryVM
 Agent Factory server shape: VM.Standard.E5.Flex
 ```
 
+<img src="/images/shape_vm_agent_factory.jpg" />
+
 **Public ssh key file**
 
 > Para la instalacion es requerida una llave publica, si no lo tienes puedes generarla asi:
