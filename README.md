@@ -21,7 +21,7 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 [3.3  Navegación por la Plataforma](#sec-3.3)  
 [3.4  Laboratorio: Construcción de un agente a partir de datos de partidos](#sec-3.4)  
 [3.4.1  Paso 1: Creación de un agente para análisis de datos](#sec-3.4.1)  
-[3.4.3  Paso 3: Uso del agente para análisis de datos](#sec-3.4.3)  
+[3.4.2  Paso 2: Uso del agente para análisis de datos](#sec-3.4.2)  
 
 
 ---
@@ -597,8 +597,8 @@ Los datos son uno de los activos más valiosos de cualquier organización, pero 
 ---
 
 
-<a id="sec-3.4.2"></a>
-##### 3.4.2 Paso 2: Creación de un agente para análisis de datos
+<a id="sec-3.4.1"></a>
+##### 3.4.1 Paso 1: Creación de un agente para análisis de datos
 
 Ingresa a la plataforma **Database Private Agent Factory (DPAF)**, que ya fue desplegada previamente. En el panel de navegación izquierdo, selecciona la opción **Data Source**.
 
@@ -664,8 +664,8 @@ Una vez publicado, el agente aparecerá listado en el panel de **Data Analysis A
 
 ---
 
-<a id="sec-3.4.3"></a>
-##### 3.4.3 Paso 3 — Uso del agente para análisis de datos
+<a id="sec-3.4.2"></a>
+##### 3.4.2 Paso 2 — Uso del agente para análisis de datos
 
 ### Apertura del agente
 
