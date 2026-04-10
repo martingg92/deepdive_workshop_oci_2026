@@ -20,8 +20,7 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 [3.2  Despliegue del Marketplace](#sec-3.2)  
 [3.3  Navegación por la Plataforma](#sec-3.3)  
 [3.4  Laboratorio: Construcción de un agente a partir de datos de partidos](#sec-3.4)  
-[3.4.1  Paso 1: Carga de los datos en la base de datos](#sec-3.4.1)  
-[3.4.2  Paso 2: Creación de un agente para análisis de datos](#sec-3.4.2)  
+[3.4.1  Paso 1: Creación de un agente para análisis de datos](#sec-3.4.1)  
 [3.4.3  Paso 3: Uso del agente para análisis de datos](#sec-3.4.3)  
 
 
@@ -597,75 +596,6 @@ Los datos son uno de los activos más valiosos de cualquier organización, pero 
 
 ---
 
-<a id="sec-3.4.1"></a>
-##### 3.4.1 Paso 1: Carga de los datos en la base de datos
-
-
-</details>
-
-<details>
-<summary>📸 Carga de documentos de forma manual </summary>
-
-
-
-
-### Acceso a la pantalla principal
-
-En la consola web de OCI, navega hasta la pantalla principal de la base de datos.
-En esta pantalla, haz clic en el botón **Database Actions**.
-Dentro del menú de Database Actions, presiona el botón **Data Load**.
-
-<img src="/images/dpaf_image3.png" />
-
-
-Se abrirá un panel con el botón **Load Data**. Haz clic en él para continuar.
-
-<img src="/images/dpaf_image4.png" />
-
-Verás un panel de carga donde puedes **arrastrar y soltar** tus archivos CSV, o hacer clic en **Select Files** para buscarlos manualmente.
-
-
-<img src="/images/dpaf_image6.png" />
-
-> **Nota:** Los archivos CSV pueden estar separados por `,` (coma) o por `;` (punto y coma). La plataforma intentará detectarlo automáticamente — verifica este ajuste en el siguiente paso.
-
-### Revisión de la configuración del dataset
-
-Una vez cargado el archivo, aparecerá un bloque con el nombre del CSV. Este nombre corresponderá al nombre de la tabla que se creará en la base de datos. Verás una advertencia que dice **Review Settings**.
-
-<img src="/images/dpaf_image7.png" />
-
-Haz clic en **Review Settings** y verifica lo siguiente:
-
-- ✅ Los datos se cargaron correctamente
-- ✅ Los tipos de datos de cada columna se detectaron de forma correcta
-- ✅ El separador del CSV fue identificado correctamente (`,`,`;`, etc...)
-
-Corrige cualquier ajuste que sea necesario antes de continuar. Una vez que todo esté en orden, la advertencia **Review Settings** desaparecerá del bloque.
-
-### Ejecución de la carga
-
-Con la configuración validada, haz clic en el botón **Start** para iniciar la transferencia de datos a la base de datos.
-
-<img src="/images/dpaf_image9.png" />
-
-### Verificación de la carga exitosa
-
-Al finalizar, el bloque mostrará el nombre del CSV junto con el **número de columnas y filas** que se cargaron correctamente. Confirma que estos valores coincidan con los de tu archivo original.
-
-<img src="/images/dpaf_image10.png" />
-
-### Cierre del panel de carga
-
-Una vez verificada la carga, haz clic en el botón **Close** para finalizar el proceso.
-
-<img src="/images/dpaf_image8.png" />
-
-Con esto concluye la carga de los datos en la base de datos, que servirán para alimentar el agente que construiremos en la plataforma **Database Private Agent Factory (DPAF)**.
-
----
-
-</details>
 
 <a id="sec-3.4.2"></a>
 ##### 3.4.2 Paso 2: Creación de un agente para análisis de datos
