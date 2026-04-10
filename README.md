@@ -930,3 +930,5 @@ Abre el **Playground** y prueba el flujo con preguntas sobre la base de datos de
 > `¿Qué equipo anotó más goles de local?`
 
 > `¿Cuál fue el partido con más goles en total?`
+
+El agente debería consultar la base de datos y devolver la respuesta en formato de narración futbolística, incluyendo una tabla con los datos y el SQL que se ejecutó.
