@@ -427,7 +427,7 @@ Para confirmar la creación seleccionamos Add Ingress Rules
 <a id="sec-3.2"></a>
 #### 3.2 Despliegue del marketplace
 
-[Link Marketplace](https://marketplace.oracle.com/listings/oracle-ai-database-private-agent-factory/ocid1.mktpublisting.oc1.iad.amaaaaaaknuwtjiawz3nex7vjo2usqfv3jr5v6scz5uzvg7mef6ykxuc5zaa" Link Marketplace")
+[Link Marketplace](https://marketplace.oracle.com/listings/oracle-ai-database-private-agent-factory/ocid1.mktpublisting.oc1.iad.amaaaaaaknuwtjiawz3nex7vjo2usqfv3jr5v6scz5uzvg7mef6ykxuc5zaa "Link Marketplace")
 
 
 </details>
