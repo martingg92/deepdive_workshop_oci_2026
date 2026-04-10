@@ -22,7 +22,7 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 [3.4  Laboratorio: Construcción de un agente a partir de datos de partidos](#sec-3.4)  
 [3.4.1  Paso 1: Creación de un agente para análisis de datos](#sec-3.4.1)  
 [3.4.2  Paso 2: Uso del agente para análisis de datos](#sec-3.4.2)  
-
+[3.4.3  Paso 3: Construcción de un flujo de agente con Agent Builder](#sec-3.4.3)  
 
 ---
 <a id="sec-1"></a>
@@ -690,5 +690,243 @@ Puedes hacerle preguntas al agente directamente en lenguaje natural. El agente i
 Para ver la consulta SQL que el agente ejecutó para responder tu pregunta, haz clic en el botón **SQL**. Esto te permite auditar y entender cómo el agente traduce las preguntas a consultas sobre la base de datos.
 
 ---
+<a id="sec-3.4.3"></a>
+##### 3.4.3 Paso 3 — Construcción de un flujo de agente con Agent Builder
 
-<!-- PASO 4 — CONTINÚA AQUÍ -->
+En este laboratorio aprenderás a construir flujos de agentes desde cero usando el **Agent Builder** de Oracle AI Database Private Agent Factory. Avanzarás en dos etapas: primero crearás un agente sencillo que convierte cualquier entrada en una narración futbolística, y luego extenderás ese flujo para conectarlo a una base de datos real de partidos y consultas SQL en lenguaje natural.
+
+---
+
+## Parte 1: Agente narrador futbolístico
+
+En esta primera etapa construirás un flujo mínimo y funcional compuesto por cuatro bloques: un `Chat input` que recibe el mensaje del usuario, un `Prompt` que define la personalidad del agente, un bloque `Agent` que genera la respuesta y un `Chat output`que muestra la respuesta en el chat. El objetivo es validar que el flujo funciona de extremo a extremo antes de añadir complejidad.
+
+El flujo de esta parte es el siguiente:
+<img src="/images/image 37.png" />
+
+### Paso 1.1: Crear un nuevo flujo
+
+En el panel de navegación izquierdo, haz clic en **Agent Builder**. 
+
+<img src="/images/image 35.png" />
+
+Luego pulsa el botón **New Flow** en la parte superior derecha de la pantalla.
+
+### Paso 1.2: Añadir el bloque `Chat input`
+
+Desde el panel de **Components**, en la sección **INPUTS**, arrastra el componente **Chat input** al lienzo.
+
+Este bloque captura el mensaje que escribe el usuario y lo expone como la variable `Message`. La conectaremos directamente al campo **Prompt** del bloque `Agent`.
+
+### Paso 1.3: Añadir el bloque `Prompt`
+
+Desde la sección **INPUTS**, arrastra el componente **Prompt** al lienzo.
+
+Este bloque actúa como la instrucción de sistema del agente: define su personalidad y comportamiento sin necesidad de variables dinámicas. Configura el campo **Template** con el siguiente texto:
+
+```
+Eres un narrador deportivo experto en fútbol, apasionado y elocuente.
+Tu misión es transformar cualquier información o dato que recibas en una
+emocionante narración futbolística, como si estuvieras transmitiendo un
+partido en vivo por la radio.
+
+No importa si el input es un resultado, una lista de números, un nombre
+o cualquier otro dato: conviértelo en una narración dinámica, con emoción
+y vocabulario propio del fútbol.
+```
+
+> 💡 En este caso el bloque `Prompt` no tiene variables dinámicas `{{}}`. Su salida **Prompt message** se conectará al campo **Custom instructions** del `Agent`, funcionando como instrucción de sistema fija.
+
+### Paso 1.4: Añadir el bloque `Agent`
+
+Desde la sección **AGENTS**, arrastra el componente **Agent** al lienzo.
+
+Configura el bloque con los siguientes valores:
+
+| Campo | Valor |
+|---|---|
+| **Select LLM to use** | `openai.gpt-oss-120b (oci)` |
+| **Temperature** | `0.01` |
+| **Agent description** | `Agent` |
+
+Luego establece las dos conexiones de entrada del bloque:
+
+- Conecta la salida **Prompt message** del bloque `Prompt` al campo **Custom instructions** del bloque `Agent`.
+- Conecta la salida **Message** del bloque `Chat input` al campo **Prompt** del bloque `Agent`.
+
+> 💡 Esta es la diferencia clave respecto a otros flujos: el `Prompt` no va al campo **Prompt** del agente, sino a **Custom instructions**. Así, el agente recibe la personalidad como instrucción de sistema, y el mensaje del usuario llega directamente por el campo **Prompt**.
+
+### Paso 1.5: Añadir el bloque `Chat output`
+
+Desde la sección **OUTPUTS**, arrastra el componente **Chat output** al lienzo.
+
+Conecta la salida **Message** del bloque `Agent` al campo **Message** del bloque `Chat output`.
+
+### Paso 1.6: Guardar y probar el flujo
+
+Haz clic en **Save** para guardar el flujo. Luego pulsa **Playground** para abrir la consola de pruebas.
+
+Escribe cualquier texto en el chat, por ejemplo:
+
+> `3 - 1`
+
+> `Messi, Mbappé, Vinicius`
+
+> `El partido duró 90 minutos y hubo 4 tarjetas amarillas`
+
+El agente debería devolver una narración futbolística entusiasta basada en el input recibido. Si la respuesta tiene el tono y el formato esperados, el flujo base está listo para extenderse en la Parte 2.
+
+<img src="/images/image 36.png" />
+
+---
+
+## Parte 2 — Flujo completo: preguntas en lenguaje natural sobre una base de datos
+
+En esta segunda etapa extenderás el flujo base para que el agente reciba preguntas del usuario en lenguaje natural, genere automáticamente la consulta SQL correspondiente, la ejecute contra una base de datos real y devuelva la respuesta como una narración futbolística.
+
+El flujo completo sigue esta secuencia:
+
+<img src="/images/image 38.png" />
+
+### Paso 2.1 — Crear el flujo
+
+Vamos a continuar editando el flujo
+
+### Paso 2.3 — Primer bloque `Prompt` (generador de SQL)
+
+Añade un bloque **Prompt** al lienzo y configura el **Template** con el siguiente texto:
+
+```
+Eres un agente que genera consultas SQL para responder a la siguiente pregunta: 
+
+{{question}}
+
+Tienes una tabla de datos de partidos de fútbol con la siguiente estructura.
+
+CREATE TABLE "ADMIN"."DATOS" 
+   (	"HOME_TEAM_NAME" VARCHAR2(64 BYTE) COLLATE "USING_NLS_COMP" ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'home_team_name'), 
+	"AWAY_TEAM_NAME" VARCHAR2(64 BYTE) COLLATE "USING_NLS_COMP" ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'away_team_name'), 
+	"HOME_TEAM_ID" NUMBER ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'home_team_id'), 
+	"AWAY_TEAM_ID" NUMBER ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'away_team_id'), 
+	"HOME_TEAM_GOALS" NUMBER ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'home_team_goals'), 
+	"AWAY_TEAM_GOALS" NUMBER ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'away_team_goals'), 
+	"DATE_RW" TIMESTAMP (6) WITH TIME ZONE ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'date'), 
+	"REFEREE" VARCHAR2(64 BYTE) COLLATE "USING_NLS_COMP" ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'referee'), 
+	"VENUE_NAME" VARCHAR2(64 BYTE) COLLATE "USING_NLS_COMP" ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'venue_name'), 
+	"VENUE_CITY" VARCHAR2(64 BYTE) COLLATE "USING_NLS_COMP" ANNOTATIONS("DATA_TOOLS_INGEST_fieldName" 'venue_city')
+   )  DEFAULT COLLATION "USING_NLS_COMP" ;
+
+Debes generar únicamente código SQL, no puedes incluir comentarios en ningún formato, ni -- ni /**. Cualquier generación de texto adicional a código SQL constituirá un error grave. No finalices los SQL con ;
+
+Ejemplo:
+
+Pregunta:
+Cuántos partidos se jugaron en Doha?
+
+y que respuesta esperamos:
+SELECT COUNT(*) AS numero_de_partidos_en_doha FROM "ADMIN"."DATOS" WHERE VENUE_CITY LIKE '%Doha%'
+```
+
+Connecta la salida **Message** del bloque `Chat input` al campo **question** del bloque Prompt.
+
+### Paso 2.4 — Bloque `LLM`
+
+Desde la sección **LANGUAGE MODEL**, añade el componente **LLM** al lienzo.
+
+Configúralo con los siguientes valores:
+
+| Campo | Valor |
+|---|---|
+| **Select LLM to use** | `openai.gpt-oss-120b (oci)` |
+| **Temperature** | `0.01` |
+
+Conecta la salida **Prompt message** del bloque `Prompt` (generador de SQL) al campo **Prompt** del bloque `LLM`.
+
+> 💡 Una temperatura muy baja (0.01) reduce la creatividad del modelo y fuerza respuestas más deterministas — ideal para generación de SQL, donde necesitamos precisión.
+
+### Paso 2.5 — Bloque `SQL query`
+
+Desde la sección **DATA**, añade el componente **SQL query** al lienzo.
+
+Configura el bloque con los siguientes valores:
+
+| Campo | Valor |
+|---|---|
+| **Select database** | `Datos` (o el nombre de tu fuente de datos) |
+| **Include columns** | Activado |
+| **Query** | *(conectar desde el bloque LLM — ver abajo)* |
+
+Es importante seleccionar la fuente de datos.
+
+<img src="/images/image 40.png" />
+
+Conecta la salida **Message** del bloque `LLM` al campo **Query** del bloque `SQL query`.
+
+### Paso 2.6 — Segundo bloque `Prompt` (narrador futbolístico con datos)
+
+Añade un segundo bloque **Prompt** al lienzo. Este bloque tomará la pregunta original, la consulta SQL generada y los datos reales devueltos por la base de datos, y los combinará en un prompt para la narración final.
+
+Configura el **Template** con el siguiente texto:
+
+```
+Eres un asistente experto en fútbol, con personalidad cercana y entusiasta. 
+Tu rol es transformar datos crudos en respuestas claras, narrativas y fáciles de entender, 
+como si le explicaras a un amigo apasionado del fútbol.
+
+Y el sistema ha ejecutado la consulta:
+{{sql}}
+
+Los datos disponibles para responder son:
+{{datos}}
+
+Instrucciones para tu respuesta:
+- Si la pregunta del usuario no está relacionada con fútbol, responde amablemente que solo 
+  puedes ayudar con preguntas sobre fútbol y no continues procesando la solicitud
+- Responde ÚNICAMENTE con la información contenida en {{datos}} — no uses conocimiento propio,
+  no asumas, no completes con datos externos aunque estés seguro de ellos
+- Si {{datos}} no contiene suficiente información para responder la pregunta, dilo claramente
+  y no intentes inferir ni completar la respuesta
+- Responde siempre en lenguaje natural y conversacional, no listes los datos crudos directamente
+- Incluye siempre una tabla con los datos de {{datos}}, formateada de forma clara y legible
+- Contextualiza el dato: si es un número, explica qué significa en el marco del torneo o la pregunta
+- Si el resultado es llamativo o interesante, menciónalo con entusiasmo moderado
+- Usa un tono amigable pero preciso
+- Responde en el mismo idioma en que el usuario hizo la pregunta
+- Menciona el SQL usado. En este caso: {{sql}}
+```
+
+Presiona el botón **Save prompt**, este botón creará los nodos especificados entree {{}}
+
+Conecta los siguientes campos de entrada de este bloque `Prompt`:
+
+| Variable del template | Fuente |
+|---|---|
+| `{{question}}` | Salida **Message** del bloque `Chat input` |
+| `{{sql}}` | Salida **Message** del bloque `LLM` |
+| `{{datos}}` | Salida **JSON** del bloque `SQL query` |
+
+### Paso 2.7 — Bloque `Agent`
+
+Usa el componente **Agent** en el lienzo y conecta la salida **Prompt message** del segundo bloque `Prompt` al campo **Prompt** del bloque `Agent`.
+
+### Paso 2.8 — Bloque `Chat output`
+
+El bloque `Chat output` debería estar conectado al campo Message del agente.
+
+### Paso 2.9 — Guardar y publicar el flujo
+
+Haz clic en **Save** para guardar el flujo. Verifica que todas las conexiones estén correctas revisando el diagrama en el lienzo — debe verse similar al siguiente esquema:
+
+<img src="/images/image 38.png" />
+
+Una vez validado, haz clic en **Publish** para publicar el flujo y dejarlo disponible para su uso.
+
+### Paso 2.10 — Prueba del flujo completo
+
+Abre el **Playground** y prueba el flujo con preguntas sobre la base de datos de partidos. Algunos ejemplos:
+
+> `¿Cuántos partidos se jugaron en Doha?`
+
+> `¿Qué equipo anotó más goles de local?`
+
+> `¿Cuál fue el partido con más goles en total?`
