@@ -410,7 +410,7 @@ El cluster debe quedar **Active** en el notebook:
 
 Navega a **Networking → Virtual Cloud Networks** y confirma el compartment.
 
-<p align="center"><img width="900" src="./images/image 8.png" alt="VCN menu"/></p>
+<p align="center"><img src="./images/image 8.png" alt="VCN menu"/></p>
 
 Crea una VCN **con acceso a internet**:
 
