@@ -606,7 +606,7 @@ En el panel izquierdo selecciona **Data Source** y crea uno de tipo **Database**
 | **Username** | `ADMIN` |
 | **Password** | *la contraseña de tu Autonomous* |
 
-<p align="center"><img width="900" src="./images/dpaf_image12.png" alt="Data source"/></p>
+<p align="center"><img src="./images/dpaf_image12.png" alt="Data source"/></p>
 
 Haz clic en **Test Connection** y luego **Add Database Source**.
 
