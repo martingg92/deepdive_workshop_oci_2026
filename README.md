@@ -903,13 +903,6 @@ Has construido, de extremo a extremo, una plataforma de datos moderna con IA gen
 - 📄 [Oracle AI Database Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/)
 - 🛒 [Oracle Marketplace](https://cloudmarketplace.oracle.com/)
 
----
-
-## 🤝 Contribuciones
-
-¿Encontraste una mejora? Abre un **Issue** o un **Pull Request**. El objetivo es que esta guía se mantenga actualizada con las últimas capacidades de la plataforma.
-
----
 
 <div align="center">
 
