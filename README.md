@@ -5,7 +5,7 @@
 # 🚀 DeepDive Workshop OCI 2026
 ### AI Data Platform (AIDP) + AI Database Agent Factory
 
-[![Oracle Cloud](https://img.shields.io/badge/Oracle%20Cloud-F80000?style=for-the-badge&logo=oracle&logoColor=white)](https://cloud.oracle.com/)
+[![OCI Console](https://img.shields.io/badge/Oracle%20Cloud-F80000?style=for-the-badge&logo=oracle&logoColor=white)](https://cloud.oracle.com/)
 [![AI Database](https://img.shields.io/badge/AI%20Database-26ai-red?style=for-the-badge)](https://www.oracle.com/database/)
 [![Generative AI](https://img.shields.io/badge/Generative%20AI-OCI-blue?style=for-the-badge)](https://www.oracle.com/artificial-intelligence/generative-ai/)
 [![AIDP](https://img.shields.io/badge/AI%20Data%20Platform-green?style=for-the-badge)](https://www.oracle.com/ai-data-platform/)
