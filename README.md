@@ -590,6 +590,28 @@ Si las conexiones son exitosas, continúa con la instalación.
 <p align="center"><img src="./images/image 31.png" alt="Ready"/></p>
 <p align="center"><img width="900" src="./images/image 32.png" alt="Installing"/></p>
 
+#### Reinicio obligatorio de la VM de Agent Factory (Workshop)
+
+En este workshop, este paso es obligatorio.
+
+Después de completar exitosamente la instalación del stack y la configuración inicial, reinicia la VM de Agent Factory antes de continuar con el uso de la plataforma.
+
+Motivo operativo en taller:
+- Reduce errores intermitentes de sesión/login.
+- Evita problemas donde componentes UI no reflejan cambios (por ejemplo, Data Source o catálogos que no aparecen de inmediato).
+- Estabiliza el arranque de servicios para los laboratorios siguientes.
+
+Procedimiento:
+1. Ve a **OCI Console** -> **Compute** -> **Instances**.
+2. Selecciona la instancia desplegada por el stack (por ejemplo `AgentFactoryVM`).
+3. Haz clic en **Reboot** (reinicio normal, no reinicio forzado).
+4. Espera a que la instancia vuelva a estado **Running**.
+
+Validación después del reinicio:
+1. Verifica que puedas ingresar de nuevo a:
+- `https://<IP_PUBLICA>:8080/agentFactory/#/login`
+2. Verifica que la plataforma cargue correctamente el home.
+3. Continúa con la navegación de la plataforma y los laboratorios.
 ---
 
 ### 3.4 Navegación por la plataforma
