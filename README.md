@@ -888,7 +888,7 @@ Has construido, de extremo a extremo, una plataforma de datos moderna con IA gen
 - 📘 [Oracle AI Developer Hub](https://github.com/oracle-devrel/oracle-ai-developer-hub)
 - 📙 [Oracle Technology Engineering · AI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai)
 - 📗 [OCI AI Industry Database Solutions](https://github.com/oracle-devrel/oci-ai-industry-dbsolutions)
-- 🎓 [Oracle University · AI Courses](https://education.oracle.com/artificial-intelligence)
+- 🎓 [Oracle University · AI Courses](https://education.oracle.com)
 - 📄 [Oracle AI Database Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/)
 - 🛒 [Oracle Marketplace](https://cloudmarketplace.oracle.com/)
 
@@ -903,6 +903,6 @@ Has construido, de extremo a extremo, una plataforma de datos moderna con IA gen
 <div align="center">
 
 **Oracle Cloud Infrastructure · DeepDive 2026**
-*Hecho con ❤️ por el equipo de AI & Data Platform · LAD*
+*Hecho con ❤️ por el equipo de AI · LAD*
 
 </div>
