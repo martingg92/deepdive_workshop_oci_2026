@@ -874,7 +874,9 @@ Verifica que `Agent.Message` → `Chat output.Message`.
 En el **Playground**:
 
 > 💬 `¿Cuántos partidos se jugaron en Doha?`
+> 
 > 💬 `¿Qué equipo anotó más goles de local?`
+> 
 > 💬 `¿Cuál fue el partido con más goles en total?`
 
 El agente consultará la base de datos y devolverá la respuesta en formato narrativo, incluyendo tabla de datos y el SQL ejecutado. 🎉
