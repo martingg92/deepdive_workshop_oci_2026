@@ -420,6 +420,8 @@ Ahora tienes un entorno completamente configurado y puedes seguir las instruccio
 
 # 🤖 Módulo 3 · AI Database Private Agent Factory
 
+[![Oracle AI Database Private Agent Factory](https://img.shields.io/badge/DPAF%20-OCI-C74634?style=for-the-badge)](https://docs.oracle.com/en/database/oracle/agent-factory/index.html)
+
 *Aprovisionamos desde Marketplace una factoría privada de agentes sobre Oracle Database 26ai, la integramos con nuestra Autonomous y construimos agentes Text‑to‑SQL y flujos conversacionales.*
 
 </div>
