@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://www.oracle.com/a/ocom/img/Oracle_Logo.jpg" alt="Oracle" width="220"/>
+<img src="./images/Oracle_Logo.jpg" alt="Oracle" width="220"/>
 
 # 🚀 DeepDive Workshop OCI 2026
 ### AI Data Platform (AIDP) + AI Database Agent Factory
