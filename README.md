@@ -8,7 +8,7 @@
 [![OCI Console](https://img.shields.io/badge/OCI%20Console-F80000?style=for-the-badge&logo=oracle&logoColor=white)](https://cloud.oracle.com/)
 [![AI Database](https://img.shields.io/badge/AI%20Database-26ai-red?style=for-the-badge)](https://www.oracle.com/database/)
 [![Generative AI](https://img.shields.io/badge/Generative%20AI-OCI-blue?style=for-the-badge)](https://www.oracle.com/artificial-intelligence/generative-ai/)
-[![AI Data Platform](https://img.shields.io/badge/AI%20Data%20Platform-Oracle-C74634?style=for-the-badge)](https://www.oracle.com/ai-data-platform/)
+[![AI Data Platform](https://img.shields.io/badge/AI%20Data%20Platform-OCI-C74634?style=for-the-badge)](https://www.oracle.com/ai-data-platform/)
 [![Duration](https://img.shields.io/badge/Duración-%7E4%20hrs-orange?style=for-the-badge)]()
 
 *Un workshop end‑to‑end para construir una plataforma de datos moderna e inteligente sobre Oracle Cloud Infrastructure, integrando **AI Data Platform** y **AI Database Private Agent Factory**.*
