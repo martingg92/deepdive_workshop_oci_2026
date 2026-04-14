@@ -552,7 +552,7 @@ Compartment ID: ocid1.compartment...     # Identity and Security → Compartment
 User ID:        ocid1.user.oc1...        # Identity → My profile
 ```
 
-> 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat). Ajusta el endpoint según tu región.
+> 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm). Ajusta el endpoint según tu región, estos los puedes encontrar en [Generative AI Service Inference - API](https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai-inference/20231130/)
 
 <p align="center"><img src="./images/image 29.png" alt="LLM form"/></p>
 
@@ -571,7 +571,7 @@ Compartment ID: ocid1.compartment...
 User ID:        ocid1.user.oc1...
 ```
 
-> 🔎 Lista de modelos disponibles: [OCI Generative AI Playground — Embed](https://cloud.oracle.com/ai-service/generative-ai/playground/embed).
+> 🔎 Lista de modelos disponibles: [OCI Generative AI Playground — Embed](https://cloud.oracle.com/ai-service/generative-ai/playground/embed) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm).
 
 Si las conexiones son exitosas, continúa con la instalación.
 
