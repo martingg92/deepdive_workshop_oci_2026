@@ -399,6 +399,17 @@ El cluster debe quedar **Active** en el notebook:
 <img width="400" src="./images/ac673755-9172-4751-b9db-e974a39baa82" alt="Cluster status"/>
 &nbsp;&nbsp;
 <img width="400" src="./images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" alt="Cluster active"/>
+
+Repite el mismo proceso de upload para el archivo Jupyter de la segunda sesión.
+<p align="center">
+<img src="./images/ntbk2.jpg" alt="Cluster active"/>
+
+Con eso tendrás todos los notebooks necesarios para realizar las sesiones prácticas directamente en tu workspace.
+
+<p align="center">
+<img src="./images/ntbk2_todo.jpg" alt="Cluster active"/>
+
+Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
 </p>
 
 > ✅ **Checkpoint Módulo 2** — Con los datos cargados, los tres catálogos creados y el cluster activo, el entorno está listo para las sesiones de notebooks y para comenzar con Agent Factory.
