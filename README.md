@@ -414,7 +414,7 @@ Navega a **Networking → Virtual Cloud Networks** y confirma el compartment.
 
 Crea una VCN **con acceso a internet**:
 
-<p align="center"><img width="900" src="./images/image 9.png" alt="VCN wizard"/></p>
+<p align="center"><img src="./images/image 9.png" alt="VCN wizard"/></p>
 
 | Campo | Valor |
 |---|---|
@@ -502,7 +502,7 @@ Agent Factory server shape:        VM.Standard.E5.Flex
 > ```
 > Carga la llave **pública** (`.pub`). Windows puede confundir la extensión con Microsoft Publisher.
 
-<p align="center"><img width="800" src="./images/image 39.png" alt="SSH key"/></p>
+<p align="center"><img src="./images/image 39.png" alt="SSH key"/></p>
 
 #### 3️⃣ Review
 
@@ -514,11 +514,11 @@ Revisa la configuración y lanza el stack. El proceso toma **3–4 minutos**. Cu
 
 Abre el link entregado por el stack. Verás la página de **registro inicial**:
 
-<p align="center"><img width="900" src="./images/image 25.png" alt="Registro"/></p>
+<p align="center"><img src="./images/image 25.png" alt="Registro"/></p>
 
 Registra tu cuenta y continúa a la **conexión con la base de datos**, cargando la Wallet que descargaste en el paso **1.2**.
 
-<p align="center"><img width="900" src="./images/image 26.png" alt="Wallet"/></p>
+<p align="center"><img src="./images/image 26.png" alt="Wallet"/></p>
 
 | Campo | Valor |
 |---|---|
@@ -625,7 +625,7 @@ Confirma con **Add New Source**.
 
 **2.3 Revisión** — valida base y tablas → **Next**.
 
-<p align="center"><img width="900" src="./images/dpaf_image18.png" alt="Review 1"/></p>
+<p align="center"><img src="./images/dpaf_image18.png" alt="Review 1"/></p>
 <p align="center"><img src="./images/dpaf_image20.png" alt="Review 2"/></p>
 
 **2.4 Publicación** — **Publish Agent**.
