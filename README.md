@@ -662,7 +662,7 @@ En el menú izquierdo → **Data Analysis Agents → Create Agent**.
 <p align="center"><img src="./images/dpaf_image15.png" alt="Tables 1"/></p>
 <p align="center"><img src="./images/dpaf_image16.png" alt="Tables 2"/></p>
 
-> 💡 **Ejemplo:** si el archivo se llama `datos.csv`, la tabla será `DATOS`.
+> 💡 **Ejemplo:** si el archivo se llama `datos.csv`, la tabla será `DATOS`. En nuestro caso, la tabla que cargamos en un princpio es la que utilizaremos, es decir, `BRONZE_WC_MATCHES`.
 
 Confirma con **Add New Source**.
 
