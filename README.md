@@ -49,22 +49,31 @@ Al finalizar, serás capaz de:
 ## 🗺️ Arquitectura de la solución
 
 ```
- ┌──────────────────────────┐      ┌────────────────────────────┐
- │  Oracle Cloud Console    │────▶│  Autonomous AI Database     │
- │  (OCI)                   │      │  26ai  ·  Bronze layer      │
- └──────────────────────────┘      └──────────────┬─────────────┘
-              │                                   │ Wallet
-              ▼                                   ▼
- ┌──────────────────────────┐      ┌────────────────────────────┐
- │  AI Data Platform (AIDP) │◀────▶│  Catálogos Bronze/Silver/   │
- │  Workspace · Notebooks   │      │  Gold   +   Workflows        │
- └──────────────┬───────────┘      └────────────────────────────┘
-                │
-                ▼
- ┌──────────────────────────────────────────────────────────────┐
- │  AI Database Private Agent Factory (DPAF)                     │
- │  Data Source · Data Analysis Agents · Agent Builder (visual)  │
- └──────────────────────────────────────────────────────────────┘
+                        ┌──────────────────────────┐
+                        │   Oracle Cloud Console   │
+                        │           (OCI)          │
+                        └────────────┬─────────────┘
+                                     │ aprovisiona
+                                     ▼
+                     ┌──────────────────────────────┐
+                     │   Autonomous AI Database 26ai │
+                     │   (fuente de datos común)     │
+                     └──────┬────────────────┬──────┘
+                   Wallet   │                │   Wallet
+               ┌────────────┘                └────────────┐
+               ▼                                          ▼
+ ┌──────────────────────────────┐        ┌──────────────────────────────┐
+ │  AI Data Platform (AIDP)     │        │  AI Database Private Agent   │
+ │                              │        │  Factory (DPAF)              │
+ │  • Catálogos Bronze/Silver/  │        │  • Data Source               │
+ │    Gold                      │        │  • Data Analysis Agents      │
+ │  • Workspace · Notebooks     │        │  • Agent Builder (visual)    │
+ │  • Workflows                 │        │  • Text-to-SQL · RAG         │
+ └──────────────────────────────┘        └──────────────────────────────┘
+          Módulos 1 y 2                           Módulo 3
+
+        ※ AIDP y DPAF operan de forma independiente. Ambos consumen
+           la misma Autonomous AI Database, pero no se comunican entre sí.
 ```
 
 ---
