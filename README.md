@@ -148,7 +148,7 @@ Deja el resto de la configuración por defecto. La base pasará a estado **Provi
 
 Dentro de la página de la base, junto a **Database Actions**, encontrarás el botón de **Database Connection**.
 
-<p align="center"><img width="800" src="./images/image 6.png" alt="Database Connection"/></p>
+<p align="center"><img src="./images/image 6.png" alt="Database Connection"/></p>
 
 Desde ahí descarga la **Wallet**.
 
@@ -427,12 +427,12 @@ El resto de valores por defecto → **Next → Create**.
 Una vez creada la VCN, en el panel **Security** abre **Security Lists** y selecciona la lista por defecto (`Default Security List for …`).
 
 <p align="center"><img width="800" src="./images/image 10.png" alt="Security Lists"/></p>
-<p align="center"><img width="800" src="./images/image 11.png" alt="Default SL"/></p>
+<p align="center"><img src="./images/image 11.png" alt="Default SL"/></p>
 
 En **Security Rules → Add Ingress Rules** añade:
 
-<p align="center"><img width="800" src="./images/image 12.png" alt="Rules"/></p>
-<p align="center"><img width="800" src="./images/image 13.png" alt="Add rule"/></p>
+<p align="center"><img src="./images/image 12.png" alt="Rules"/></p>
+<p align="center"><img src="./images/image 13.png" alt="Add rule"/></p>
 <p align="center"><img width="800" src="./images/image 14.png" alt="Rule detail"/></p>
 
 | Source CIDR | Destination Port Range | Propósito |
@@ -441,7 +441,7 @@ En **Security Rules → Add Ingress Rules** añade:
 | `0.0.0.0/0` | `1521` | Conexión a Oracle Database |
 
 <p align="center"><img width="800" src="./images/image 15.png" alt="Rule 8080"/></p>
-<p align="center"><img width="800" src="./images/image 16.png" alt="Rule 1521"/></p>
+<p align="center"><img src="./images/image 16.png" alt="Rule 1521"/></p>
 
 Confirma con **Add Ingress Rules**.
 
@@ -459,12 +459,12 @@ Navega a **Marketplace → All Applications** y busca la aplicación:
 Oracle AI Database Private Agent Factory
 ```
 
-<p align="center"><img width="900" src="./images/image 18.png" alt="Buscar app"/></p>
-<p align="center"><img width="900" src="./images/image 19.png" alt="Seleccionar"/></p>
+<p align="center"><img src="./images/image 18.png" alt="Buscar app"/></p>
+<p align="center"><img src="./images/image 19.png" alt="Seleccionar"/></p>
 
 Selecciona la app → **Launch Stack**. Confirma el compartment.
 
-<p align="center"><img width="900" src="./images/image 20.png" alt="Create stack"/></p>
+<p align="center"><img src="./images/image 20.png" alt="Create stack"/></p>
 
 #### 1️⃣ Stack information
 
@@ -545,13 +545,13 @@ User ID:        ocid1.user.oc1...        # Identity → My profile
 
 > 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat). Ajusta el endpoint según tu región.
 
-<p align="center"><img width="900" src="./images/image 29.png" alt="LLM form"/></p>
+<p align="center"><img src="./images/image 29.png" alt="LLM form"/></p>
 
 #### Configuración del modelo de Embeddings
 
 Al hacer scroll encontrarás la opción para agregar un modelo de embeddings.
 
-<p align="center"><img width="900" src="./images/image 30.png" alt="Embeddings"/></p>
+<p align="center"><img src="./images/image 30.png" alt="Embeddings"/></p>
 
 Selecciona **OCI Gen AI** y completa:
 
@@ -566,7 +566,7 @@ User ID:        ocid1.user.oc1...
 
 Si las conexiones son exitosas, continúa con la instalación.
 
-<p align="center"><img width="900" src="./images/image 31.png" alt="Ready"/></p>
+<p align="center"><img src="./images/image 31.png" alt="Ready"/></p>
 <p align="center"><img width="900" src="./images/image 32.png" alt="Installing"/></p>
 
 ---
@@ -607,30 +607,30 @@ Haz clic en **Test Connection** y luego **Add Database Source**.
 
 En el menú izquierdo → **Data Analysis Agents → Create Agent**.
 
-<p align="center"><img width="900" src="./images/dpaf_image13.png" alt="Agents menu"/></p>
-<p align="center"><img width="900" src="./images/dpaf_image14.png" alt="Create agent"/></p>
+<p align="center"><img src="./images/dpaf_image13.png" alt="Agents menu"/></p>
+<p align="center"><img src="./images/dpaf_image14.png" alt="Create agent"/></p>
 
 **2.1 Selección de la base de datos** — elige la fuente configurada.
 
 **2.2 Selección de tablas** — usa la barra de búsqueda para encontrar las tablas (el nombre de cada tabla corresponde al archivo CSV cargado, sin la extensión `.csv`).
 
-<p align="center"><img width="900" src="./images/dpaf_image15.png" alt="Tables 1"/></p>
-<p align="center"><img width="900" src="./images/dpaf_image16.png" alt="Tables 2"/></p>
+<p align="center"><img src="./images/dpaf_image15.png" alt="Tables 1"/></p>
+<p align="center"><img src="./images/dpaf_image16.png" alt="Tables 2"/></p>
 
 > 💡 **Ejemplo:** si el archivo se llama `datos.csv`, la tabla será `DATOS`.
 
 Confirma con **Add New Source**.
 
-<p align="center"><img width="900" src="./images/dpaf_image17.png" alt="Confirm"/></p>
+<p align="center"><img src="./images/dpaf_image17.png" alt="Confirm"/></p>
 
 **2.3 Revisión** — valida base y tablas → **Next**.
 
 <p align="center"><img width="900" src="./images/dpaf_image18.png" alt="Review 1"/></p>
-<p align="center"><img width="900" src="./images/dpaf_image20.png" alt="Review 2"/></p>
+<p align="center"><img src="./images/dpaf_image20.png" alt="Review 2"/></p>
 
 **2.4 Publicación** — **Publish Agent**.
 
-<p align="center"><img width="900" src="./images/dpaf_image19.png" alt="Publish"/></p>
+<p align="center"><img src="./images/dpaf_image19.png" alt="Publish"/></p>
 
 #### Paso 3 · Usar el agente
 
@@ -671,7 +671,7 @@ Flujo mínimo y funcional con cuatro bloques: `Chat input` → `Prompt` → `Age
 
 Menú izquierdo → **Agent Builder** → **New Flow**.
 
-<p align="center"><img width="900" src="./images/image 35.png" alt="Agent Builder"/></p>
+<p align="center"><img src="./images/image 35.png" alt="Agent Builder"/></p>
 
 ##### 1.2 · Bloque `Chat input`
 
