@@ -528,6 +528,7 @@ Agent Factory server shape:        VM.Standard.E5.Flex
 
 Revisa la configuración y lanza el stack. El proceso toma **3–4 minutos**. Cuando finaliza, el último log muestra un **link de acceso** a DPAF.
 
+<p align="center"><img src="./images/instalacion_AF.jpg" alt="Instalación DPAF"/></p>
 ---
 
 ### 3.3 Registro inicial y configuración de modelos
