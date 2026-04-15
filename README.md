@@ -556,7 +556,7 @@ Prueba la conexión; un mensaje de éxito confirma la comunicación con la base.
 Al presionar **Next** verás los logs de instalación. En el paso siguiente configuraremos los modelos.
 
 <details>
-<summary><h3>🔐 Anexo · Creación de API Keys y credenciales OCI <i>(click para desplegar)</i></h3></summary>
+<summary><b>🔐 Anexo · Creación de API Keys y credenciales OCI</b></summary>
 
 <br>
 
