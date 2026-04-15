@@ -555,6 +555,107 @@ Prueba la conexión; un mensaje de éxito confirma la comunicación con la base.
 
 Al presionar **Next** verás los logs de instalación. En el paso siguiente configuraremos los modelos.
 
+<details>
+<summary><h3>🔐 Anexo · Creación de API Keys y credenciales OCI <i>(click para desplegar)</i></h3></summary>
+
+<br>
+
+Este anexo explica cómo **crear y descargar un API Key** en Oracle Cloud, y cómo obtener las variables necesarias para establecer conexión con los servicios de OCI desde aplicaciones externas (SDK, Python, scripts, DPAF, etc.).
+
+> ⚠️ **Importante:** no basta con descargar la llave. En la pantalla de configuración debes **copiar el bloque al archivo `~/.oci/config`** y presionar el botón **Add**. Si no presionas **Add**, la llave descargada queda **no válida** o no asociada correctamente al usuario.
+
+#### 📋 Requisitos
+
+- Acceso activo a tu cuenta de **Oracle Cloud Infrastructure**.
+- Permisos en tu usuario para administrar **Tokens and Keys**.
+
+---
+
+#### 1 · Acceder al perfil del usuario
+
+En la consola de OCI, arriba a la derecha, haz clic en el **icono de usuario** y selecciona tu cuenta.
+
+<p align="center"><img src="./images/54hy45hy.jpg" alt="Menú de usuario"/></p>
+
+---
+
+#### 2 · Abrir "Tokens and Keys"
+
+Dentro del panel de tu usuario, entra a la pestaña **Tokens and Keys**.
+
+<p align="center"><img src="./images/hr5thg.jpg" alt="Tokens and Keys"/></p>
+
+---
+
+#### 3 · Crear y descargar el API Key
+
+Ubica la sección **API Keys** → clic en **Add API Key**.
+
+<p align="center"><img src="./images/ewfwefwe.jpg" alt="Add API Key"/></p>
+
+Selecciona **Generate API Key Pair** y luego **Download private key**.
+
+<p align="center"><img src="./images/trewhgertgh.jpg" alt="Download private key"/></p>
+
+> ✅ **Resultado esperado:** tendrás un archivo `.pem` descargado (normalmente `oci_api_key.pem`).
+
+---
+
+#### 4 · Copiar la configuración y presionar **Add** (paso crítico)
+
+Al terminar la descarga, OCI muestra un bloque de **configuración sugerida** con los campos necesarios. Cópialo a tu archivo `~/.oci/config`:
+
+```ini
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaa...
+fingerprint=12:34:56:78:90:ab:cd:ef:...
+tenancy=ocid1.tenancy.oc1..aaaaaaaa...
+region=us-ashburn-1
+key_file=/RUTA/A/.oci/oci_api_key.pem
+```
+
+Luego presiona **Add** en la consola. Si no lo haces, la llave queda huérfana.
+
+---
+
+#### 5 · Obtener el Compartment ID
+
+Algunas integraciones (incluido DPAF) requieren el **OCID del compartment** donde corren los servicios.
+
+| Paso | Acción |
+|---|---|
+| 1 | Menú lateral → **Identity & Security → Compartments** |
+| 2 | Busca y selecciona el compartment (por ejemplo `ora26ai`) |
+| 3 | Copia el valor de **OCID** desde los detalles |
+
+<details>
+<summary>📸 <b>Ver cómo obtener el Compartment ID</b></summary>
+
+<br>
+
+<p align="center"><img width="900" src="./images/comparment.png" alt="Compartment ID"/></p>
+
+</details>
+
+---
+
+#### 6 · Variables finales que necesitarás
+
+Al terminar este proceso deberías tener a mano:
+
+| Variable | Dónde se obtiene |
+|---|---|
+| `user` | OCID de tu usuario · Identity → My profile |
+| `fingerprint` | Se muestra al crear el API Key |
+| `tenancy` | OCID de tenancy · Administration → Tenancy details |
+| `region` | Región de tu consola (por ejemplo `us-chicago-1`) |
+| `key_file` | Ruta local al `.pem` descargado |
+| `compartment_id` | OCID del compartment (paso 5) |
+
+Con estas seis variables puedes autenticar llamadas al SDK de OCI, configurar modelos en DPAF, o conectar desde scripts Python.
+
+</details>
+
 #### Configuración del modelo de lenguaje (LLM)
 
 <p align="center"><img width="900" src="./images/image 28.png" alt="LLM config"/></p>
