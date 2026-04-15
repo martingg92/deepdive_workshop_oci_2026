@@ -628,16 +628,8 @@ Algunas integraciones (incluido DPAF) requieren el **OCID del compartment** dond
 | 2 | Busca y selecciona el compartment (por ejemplo `ora26ai`) |
 | 3 | Copia el valor de **OCID** desde los detalles |
 
-<details>
-<summary>📸 <b>Ver cómo obtener el Compartment ID</b></summary>
-
-<br>
-
-<p align="center"><img width="900" src="./images/comparment.png" alt="Compartment ID"/></p>
-
-</details>
-
 ---
+Para nuestro caso, al ser cuentas Trial, el compartment ID (__OCID del compartment__) es el mismo del Tenant (__OCID del Tenant__) ya que estamos trabajando sobre el root. 
 
 #### 6 · Variables finales que necesitarás
 
