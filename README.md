@@ -311,6 +311,8 @@ BEGIN
     )
   );
 END;
+/
+COMMIT;
 ```
 
 #### Paso 3 · Validar la ingesta
