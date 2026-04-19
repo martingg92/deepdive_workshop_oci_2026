@@ -49,31 +49,35 @@ Al finalizar, serás capaz de:
 ## 🗺️ Arquitectura de la solución
 
 ```
-                        ┌──────────────────────────┐
-                        │   Oracle Cloud Console   │
-                        │           (OCI)          │
-                        └────────────┬─────────────┘
-                                     │ aprovisiona
-                                     ▼
-                     ┌──────────────────────────────┐
+                         ┌──────────────────────────┐
+                         │   Oracle Cloud Console   │
+                         │           (OCI)          │
+                         └────────────┬─────────────┘
+                                      │ aprovisiona
+                                      ▼
+                     ┌───────────────────────────────┐
                      │   Autonomous AI Database 26ai │
-                     │   (fuente de datos común)     │
-                     └──────┬────────────────┬──────┘
-                   Wallet   │                │   Wallet
-               ┌────────────┘                └────────────┐
-               ▼                                          ▼
- ┌──────────────────────────────┐        ┌──────────────────────────────┐
- │  AI Data Platform (AIDP)     │        │  AI Database Private Agent   │
- │                              │        │  Factory (DPAF)              │
- │  • Catálogos Bronze/Silver/  │        │  • Data Source               │
- │    Gold                      │        │  • Data Analysis Agents      │
- │  • Workspace · Notebooks     │        │  • Agent Builder (visual)    │
- │  • Workflows                 │        │  • Text-to-SQL · RAG         │
- └──────────────────────────────┘        └──────────────────────────────┘
-          Módulos 1 y 2                           Módulo 3
+                     │    (fuente de datos común)    │
+                     └──────┬─────────────────┬──────┘
+                   Wallet   │                 │   Wallet
+                ┌───────────┘                 └────────────┐
+                ▼                                           ▼
+ ┌──────────────────────────────┐           ┌──────────────────────────────────┐
+ │  AI Data Platform (AIDP)     │           │           VCN (Módulo 3)         │
+ │  • Catálogos Bronze/Silver/  │           │  Security List / NSG             │
+ │    Gold                      │           │  • Ingress TCP 8080              │
+ │  • Workspace · Notebooks     │           │    (desde IP autorizada)         │
+ │  • Workflows                 │           │            │                      │
+ └──────────────────────────────┘           │            ▼                      │
+         Módulos 1 y 2                      │  AI Database Private Agent        │
+                                            │  Factory (DPAF)                   │
+                                            │  • Data Source                    │
+                                            │  • Data Analysis Agents           │
+                                            │  • Agent Builder · Text-to-SQL    │
+                                            └──────────────────────────────────┘
 
-        ※ AIDP y DPAF operan de forma independiente. Ambos consumen
-           la misma Autonomous AI Database, pero no se comunican entre sí.
+         ※ AIDP y DPAF operan de forma independiente. Ambos consumen la misma
+           Autonomous AI Database; DPAF requiere VCN con puerto TCP 8080 abierto.
 ```
 
 ---
@@ -377,6 +381,7 @@ Al finalizar verás las tablas existentes en Autonomous con su esquema.
 | **Catalog name** | `deepdivecatalog_prata` |
 | **Description** | *Catálogo de datos limpios / Silver layer* |
 | **Catalog type** | `Standard catalog` |
+| **Compartment** | `demo` |
 
 <p align="center"><img width="500" src="./images/image 41.png" alt="Silver"/></p>
 
@@ -387,6 +392,7 @@ Al finalizar verás las tablas existentes en Autonomous con su esquema.
 | **Catalog name** | `deepdivecatalog_ouro` |
 | **Description** | *Catálogo de datos consumibles / Gold layer* |
 | **Catalog type** | `Standard catalog` |
+| **Compartment** | `demo` |
 
 <p align="center"><img width="500" src="./images/image 42.png" alt="Gold"/></p>
 
@@ -411,7 +417,7 @@ Una vez cargado, ábrelo haciendo clic en el nombre del notebook.
 
 ### 2.5 Creación y asociación del cluster
 
-Al abrir el notebook verás **No cluster attached** en la parte superior. Haz clic en el botón de cluster (arriba a la derecha) → **Create Cluster**.
+Una vez cargados los notebooks, abre específicamente `session1-AIDP-ES.ipynb`. Al abrir ese notebook verás **No cluster attached** en la parte superior. Haz clic en el botón de cluster (arriba a la derecha) → **Create Cluster**.
 
 <p align="center"><img width="900" src="./images/624bb611-e2c6-45b4-96e7-070b9f42e091" alt="Create cluster"/></p>
 
@@ -440,6 +446,8 @@ Con eso tendrás todos los notebooks necesarios para realizar las sesiones prác
 <img src="./images/ntbk2_todo.jpg" alt="Cluster active"/>
 
 Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
+
+Para ejecutar cada celda del notebook, haz clic en el botón **Play** o usa el atajo **Ctrl + Enter**.
 </p>
 
 > ✅ **Checkpoint Módulo 2** — Con los datos cargados, los tres catálogos creados y el cluster activo, el entorno está listo para las sesiones de notebooks y para comenzar con Agent Factory.
