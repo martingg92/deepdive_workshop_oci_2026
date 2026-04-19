@@ -105,6 +105,9 @@ Al finalizar, serás capaz de:
 - [3.5 Lab · Data Analysis Agent (Text‑to‑SQL)](#35-lab--data-analysis-agent-text-to-sql)
 - [3.6 Lab · Agent Builder — Narrador futbolístico](#36-lab--agent-builder--narrador-futbolístico)
 
+### 🛠️ Soporte
+- [Troubleshooting de notebooks y catálogo externo](./TROUBLESHOOTING.md)
+
 ---
 
 <div align="center">
@@ -420,6 +423,8 @@ Una vez cargado, ábrelo haciendo clic en el nombre del notebook.
 ### 2.5 Creación y asociación del cluster
 
 Una vez cargados los notebooks, abre específicamente `session1-AIDP-ES.ipynb`. Al abrir ese notebook verás **No cluster attached** en la parte superior. Haz clic en el botón de cluster (arriba a la derecha) → **Create Cluster**.
+
+> 💡 Si al iniciar notebooks aparece un error de esquema/catálogo (por ejemplo `SCHEMA_NOT_FOUND` con `admin`), revisa la guía de [Troubleshooting](./TROUBLESHOOTING.md).
 
 <p align="center"><img width="900" src="./images/624bb611-e2c6-45b4-96e7-070b9f42e091" alt="Create cluster"/></p>
 
