@@ -81,9 +81,10 @@ Al finalizar, serás capaz de:
 ## 🧭 Tabla de contenidos
 
 ### 🧱 Módulo 1 · Preparación del entorno
-- [1.1 Creación de la Autonomous AI Database](#11-creación-de-la-autonomous-ai-database)
-- [1.2 Descarga de la Wallet](#12-descarga-de-la-wallet)
-- [1.3 Creación de la AI Data Platform](#13-creación-de-la-ai-data-platform)
+- [1.1 Creación del compartment `demo`](#11-creación-del-compartment-demo)
+- [1.2 Creación de la Autonomous AI Database](#12-creación-de-la-autonomous-ai-database)
+- [1.3 Descarga de la Wallet](#13-descarga-de-la-wallet)
+- [1.4 Creación de la AI Data Platform](#14-creación-de-la-ai-data-platform)
 
 ### 📥 Módulo 2 · Ingesta y catalogación de datos
 - [2.1 Ingesta en Autonomous AI Database](#21-ingesta-en-autonomous-ai-database)
@@ -106,13 +107,42 @@ Al finalizar, serás capaz de:
 
 # 🧱 Módulo 1 · Preparación del entorno
 
-*En este módulo inicializamos los servicios base: una Autonomous AI Database 26ai y una instancia de AI Data Platform.*
+*En este módulo preparamos el entorno base: creamos un compartment dedicado, una Autonomous AI Database 26ai y una instancia de AI Data Platform.*
 
 </div>
 
 ---
 
-### 1.1 Creación de la Autonomous AI Database
+### 1.1 Creación del compartment `demo`
+
+Abre el menú de hamburguesa y navega a **Identity & Security → Compartments**.
+
+En la parte izquierda selecciona el compartimento raíz de tu tenancy y haz clic en **Create Compartment**.
+
+Completa el formulario con estos valores:
+
+| Campo | Valor |
+|---|---|
+| **Name** | `demo` |
+| **Description** | `Compartment para DeepDive Workshop OCI 2026` |
+| **Parent Compartment** | *Root compartment de tu tenancy* |
+
+Haz clic en **Create Compartment** y espera a que el estado aparezca como **Active**.
+
+- <details>
+  <summary>🔽 Haz clic aquí: si tienes problemas para crear el compartment, revisa el paso a paso.</summary>
+
+  1. Ve a **Identity & Security → Compartments**.
+  2. Verifica que estás en el **Root compartment** de tu tenancy.
+  3. Haz clic en **Create Compartment** y completa `Name = demo`.
+  4. Si no aparece el botón o recibes error de permisos, solicita a un administrador acceso IAM para administrar compartments.
+
+  ![compartment-demo.png](images/compartment-demo.png)
+  </details>
+
+---
+
+### 1.2 Creación de la Autonomous AI Database
 
 Abre el menú de hamburguesa (parte superior izquierda) para acceder a los servicios de OCI. Busca **Oracle AI Database → Autonomous AI Database** y abre el servicio.
 
@@ -153,7 +183,7 @@ Deja el resto de la configuración por defecto. La base pasará a estado **Provi
 
 ---
 
-### 1.2 Descarga de la Wallet
+### 1.3 Descarga de la Wallet
 
 Dentro de la página de la base, junto a **Database Actions**, encontrarás el botón de **Database Connection**.
 
@@ -167,7 +197,7 @@ Desde ahí descarga la **Wallet**.
 
 ---
 
-### 1.3 Creación de la AI Data Platform
+### 1.4 Creación de la AI Data Platform
 
 Abre el menú lateral y navega a **Analytics & AI → AI Data Platform Workbench**.
 
