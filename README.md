@@ -828,7 +828,9 @@ En el menú izquierdo → **Data Analysis Agents → Create Agent**.
 <p align="center"><img src="./images/dpaf_image15.png" alt="Tables 1"/></p>
 <p align="center"><img src="./images/dpaf_image16.png" alt="Tables 2"/></p>
 
-> 💡 **Ejemplo:** si el archivo se llama `datos.csv`, la tabla será `DATOS`. En nuestro caso, la tabla que cargamos en un princpio es la que utilizaremos, es decir, `BRONZE_WC_MATCHES`.
+> **Tabla a seleccionar:** `BRONZE_WC_MATCHES`.
+>
+> En este workshop, la tabla utilizada por el agente es `BRONZE_WC_MATCHES`. No se debe seleccionar `DATOS`.
 
 Confirma con **Add New Source**.
 
@@ -963,7 +965,7 @@ Eres un agente que genera consultas SQL para responder a la siguiente pregunta:
 
 Tienes una tabla de datos de partidos de fútbol con la siguiente estructura.
 
-CREATE TABLE "ADMIN"."DATOS"
+CREATE TABLE "ADMIN"."BRONZE_WC_MATCHES"
  ( "HOME_TEAM_NAME"   VARCHAR2(64),
    "AWAY_TEAM_NAME"   VARCHAR2(64),
    "HOME_TEAM_ID"     NUMBER,
@@ -983,7 +985,7 @@ Ejemplo:
 Pregunta: ¿Cuántos partidos se jugaron en Doha?
 Respuesta esperada:
 SELECT COUNT(*) AS numero_de_partidos_en_doha
-FROM "ADMIN"."DATOS"
+FROM "ADMIN"."BRONZE_WC_MATCHES"
 WHERE VENUE_CITY LIKE '%Doha%'
 ```
 
