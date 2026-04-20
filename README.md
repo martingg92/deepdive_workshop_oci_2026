@@ -318,6 +318,8 @@ END;
 COMMIT;
 ```
 
+> 🔎 El archivo de ejemplo está alojado en un bucket público de Object Storage en **Chicago**. Eso no significa que tu workshop deba desplegarse en Chicago: puedes ejecutar el laboratorio desde otra región y consumir igualmente este archivo mientras la URL siga siendo pública y accesible.
+
 #### Paso 3 · Validar la ingesta
 
 ```sql
@@ -541,10 +543,17 @@ Nombre y descripción del stack (puedes dejar la descripción por defecto).
 
 **General settings**
 ```yaml
-Region:             us-chicago-1
+Region:             <tu región actual de OCI>
 VM compartment:     <tu compartment>
 Subnet compartment: <tu compartment>
 ```
+
+> 🔎 **Importante:** no dejes `us-chicago-1` por defecto a menos que realmente estés desplegando en Chicago. Para evitar problemas de conectividad y compatibilidad, mantén en la **misma región** el stack, la VM de Agent Factory, Autonomous Database, AIDP y OCI Generative AI. En este workshop hemos validado especialmente estas regiones:
+>
+> - **Chicago** → `us-chicago-1`
+> - **São Paulo** → `sa-saopaulo-1`
+> - **London** → `uk-london-1`
+> - **Frankfurt** → `eu-frankfurt-1`
 
 **Network Configuration**
 ```yaml
@@ -655,7 +664,7 @@ Al terminar la descarga, OCI muestra un bloque de **configuración sugerida** co
 user=ocid1.user.oc1..aaaaaaaa...
 fingerprint=12:34:56:78:90:ab:cd:ef:...
 tenancy=ocid1.tenancy.oc1..aaaaaaaa...
-region=us-ashburn-1
+region=<tu-region>
 key_file=/RUTA/A/.oci/oci_api_key.pem
 ```
 
@@ -685,7 +694,7 @@ Al terminar este proceso deberías tener a mano:
 | `user` | OCID de tu usuario · Identity → My profile |
 | `fingerprint` | Se muestra al crear el API Key |
 | `tenancy` | OCID de tenancy · Administration → Tenancy details |
-| `region` | Región de tu consola (por ejemplo `us-chicago-1`) |
+| `region` | Región donde estás ejecutando el workshop (por ejemplo `us-chicago-1`, `sa-saopaulo-1`, `uk-london-1` o `eu-frankfurt-1`) |
 | `key_file` | Ruta local al `.pem` descargado |
 | `compartment_id` | OCID del compartment (paso 5) |
 
@@ -697,14 +706,31 @@ Con estas seis variables puedes autenticar llamadas al SDK de OCI, configurar mo
 
 <p align="center"><img width="900" src="./images/image 28.png" alt="LLM config"/></p>
 
+Esta configuración **depende de la región**. Antes de completar el formulario, identifica primero el código de región de tu tenancy y usa ese mismo valor en el endpoint del servicio.
+
+El endpoint base sigue este patrón:
+
+```text
+https://inference.generativeai.<tu-region>.oci.oraclecloud.com
+```
+
+Para que el laboratorio sea reproducible sin importar si estás en Chicago, São Paulo, London o Frankfurt, recomendamos usar una combinación de modelos que se mantiene disponible en esas cuatro regiones:
+
+| Región OCI | Código de región | Endpoint | LLM recomendado para este workshop | Embeddings recomendados |
+|---|---|---|---|---|
+| Chicago | `us-chicago-1` | `https://inference.generativeai.us-chicago-1.oci.oraclecloud.com` | `cohere.command-r-08-2024` | `cohere.embed-multilingual-v3.0` |
+| São Paulo | `sa-saopaulo-1` | `https://inference.generativeai.sa-saopaulo-1.oci.oraclecloud.com` | `cohere.command-r-08-2024` | `cohere.embed-multilingual-v3.0` |
+| London | `uk-london-1` | `https://inference.generativeai.uk-london-1.oci.oraclecloud.com` | `cohere.command-r-08-2024` | `cohere.embed-multilingual-v3.0` |
+| Frankfurt | `eu-frankfurt-1` | `https://inference.generativeai.eu-frankfurt-1.oci.oraclecloud.com` | `cohere.command-r-08-2024` | `cohere.embed-multilingual-v3.0` |
+
 ```yaml
-Model id:       meta.llama-4-maverick-17b-128e-instruct-fp8
-Endpoint:       https://inference.generativeai.us-chicago-1.oci.oraclecloud.com
+Model id:       cohere.command-r-08-2024
+Endpoint:       https://inference.generativeai.<tu-region>.oci.oraclecloud.com
 Compartment ID: ocid1.compartment...     # Identity and Security → Compartments
 User ID:        ocid1.user.oc1...        # Identity → My profile
 ```
 
-> 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm). Ajusta el endpoint según tu región, estos los puedes encontrar en [Generative AI Service Inference - API](https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai-inference/20231130/)
+> 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm). Si tu región ofrece otros modelos y prefieres usarlos, recuerda cambiar **ambas cosas**: el `Model id` y el `Endpoint`.
 
 <p align="center"><img src="./images/image 29.png" alt="LLM form"/></p>
 
@@ -717,11 +743,13 @@ Al hacer scroll encontrarás la opción para agregar un modelo de embeddings.
 Selecciona **OCI Gen AI** y completa:
 
 ```yaml
-Model id:       cohere.embed-multilingual-image-v3.0
-Endpoint:       https://inference.generativeai.us-chicago-1.oci.oraclecloud.com
+Model id:       cohere.embed-multilingual-v3.0
+Endpoint:       https://inference.generativeai.<tu-region>.oci.oraclecloud.com
 Compartment ID: ocid1.compartment...
 User ID:        ocid1.user.oc1...
 ```
+
+> 💡 Para este workshop recomendamos `cohere.embed-multilingual-v3.0` porque evita fricciones entre regiones. Si en tu región también tienes disponible `cohere.embed-multilingual-image-v3.0` y deseas usar capacidades multimodales, puedes reemplazarlo, pero verifica primero que esté habilitado en tu tenancy y en esa región específica.
 
 > 🔎 Lista de modelos disponibles: [OCI Generative AI Playground — Embed](https://cloud.oracle.com/ai-service/generative-ai/playground/embed) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm).
 
@@ -887,7 +915,7 @@ Sección **AGENTS** → arrastra **Agent** y configura:
 
 | Campo | Valor |
 |---|---|
-| **Select LLM to use** | `openai.gpt-oss-120b (oci)` |
+| **Select LLM to use** | El mismo LLM conversacional que configuraste antes. Recomendado: `cohere.command-r-08-2024 (oci)` si aparece disponible en tu región |
 | **Temperature** | `0.01` |
 | **Agent description** | `Agent` |
 
@@ -967,7 +995,7 @@ Sección **LANGUAGE MODEL** → añade **LLM**.
 
 | Campo | Valor |
 |---|---|
-| **Select LLM to use** | `openai.gpt-oss-120b (oci)` |
+| **Select LLM to use** | El mismo LLM conversacional que configuraste antes. Recomendado: `cohere.command-r-08-2024 (oci)` si aparece disponible en tu región |
 | **Temperature** | `0.01` |
 
 Conecta `Prompt(SQL generator).Prompt message` → `LLM.Prompt`.
