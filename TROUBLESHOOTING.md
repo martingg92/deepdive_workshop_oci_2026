@@ -22,9 +22,14 @@ El catálogo externo está resolviendo el esquema en `ORACLE` y no en `ADMIN`.
 
 ### Solución recomendada
 
-1. Ejecuta como `ADMIN` el script:
-   - `tools/sqltools_oracle_schema_setup.sql`
-2. El script:
+1. Abre el script [tools/sqltools_oracle_schema_setup.sql](./tools/sqltools_oracle_schema_setup.sql).
+2. Entra a tu instancia de **Autonomous Database** en OCI.
+3. Abre **Database Actions**.
+4. Ingresa a **SQL** para abrir **SQL Web**.
+5. Verifica que la sesión esté conectada con el usuario `ADMIN`.
+6. Copia y pega el contenido del script en SQL Web, o súbelo/ábrelo ahí si prefieres trabajar desde archivo.
+7. Ejecuta todo el script como `ADMIN`.
+8. El script:
    - crea/habilita el usuario `ORACLE`
    - crea y carga `ORACLE.BRONZE_WC_MATCHES`
    - habilita ORDS REST para el esquema y la tabla
