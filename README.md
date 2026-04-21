@@ -572,11 +572,19 @@ Agent Factory server shape:        VM.Standard.E5.Flex
 
 **Public SSH key**
 
-> 🔑 Se requiere una llave pública SSH. Si no tienes una, puedes generarla con PowerShell:
+Se requiere una llave pública SSH.
+
+Si no deseas generarla durante el workshop, puedes usar esta clave temporal incluida en el repositorio:
+
+- <a href="./tools/oraclelabs.pub" download="oraclelabs.pub">Descargar `oraclelabs.pub`</a>
+
+> ⚠️ Esta clave se incluye únicamente para fines de laboratorio. No se recomienda reutilizarla en entornos productivos ni en recursos que deban permanecer activos después del workshop.
+
+Si prefieres crear tu propia llave, puedes generarla con PowerShell:
 > ```powershell
 > ssh-keygen -t rsa -b 4096 -f .\oraclelabs
 > ```
-> Carga la llave **pública** (`.pub`). Windows puede confundir la extensión con Microsoft Publisher.
+> Luego carga la llave **pública** (`.pub`). Windows puede confundir la extensión con Microsoft Publisher.
 
 <p align="center"><img src="./images/image 39.png" alt="SSH key"/></p>
 
