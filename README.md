@@ -965,11 +965,31 @@ Extenderemos el flujo para que reciba preguntas, genere SQL, lo ejecute contra l
 
 <p align="center"><img width="900" src="./images/image 38.png" alt="Flujo Parte 2"/></p>
 
-##### 2.1 · Continuar editando el flujo
+##### 2.1 · Crear el Data Source (si no ejecutaste el Lab 3.5)
+
+Para esta parte necesitas una conexión de tipo **Database** disponible en DPAF. Si ya la creaste en el Lab **3.5**, puedes reutilizarla y continuar al paso siguiente.
+
+En el panel izquierdo selecciona **Data Source** y crea uno de tipo **Database**:
+
+| Campo | Valor |
+|---|---|
+| **Name** | *Nombre descriptivo de la conexión* |
+| **Description** | *Propósito de la fuente* |
+| **Connection type** | *Carga la Wallet descargada en 1.2* |
+| **Username** | `ADMIN` |
+| **Password** | *la contraseña de tu Autonomous* |
+
+<p align="center"><img src="./images/dpaf_image12.png" alt="Data source"/></p>
+
+Haz clic en **Test Connection** y luego **Add Database Source**.
+
+> ✅ Al volver al panel **Data Source** verás tu nueva fuente listada.
+
+##### 2.2 · Continuar editando el flujo
 
 Seguimos trabajando sobre el flujo de la Parte 1.
 
-##### 2.2 · Primer `Prompt` — generador de SQL
+##### 2.3 · Primer `Prompt` — generador de SQL
 
 Añade un bloque **Prompt** con este **Template**:
 
@@ -1006,7 +1026,7 @@ WHERE VENUE_CITY LIKE '%Doha%'
 
 Conecta `Chat input.Message` → `Prompt.question`.
 
-##### 2.3 · Bloque `LLM`
+##### 2.4 · Bloque `LLM`
 
 Sección **LANGUAGE MODEL** → añade **LLM**.
 
@@ -1019,19 +1039,19 @@ Conecta `Prompt(SQL generator).Prompt message` → `LLM.Prompt`.
 
 > 💡 Una temperatura muy baja fuerza respuestas deterministas — ideal para SQL.
 
-##### 2.4 · Bloque `SQL query`
+##### 2.5 · Bloque `SQL query`
 
 Sección **DATA** → añade **SQL query**.
 
 | Campo | Valor |
 |---|---|
-| **Select database** | `Datos` *(o el nombre de tu fuente)* |
+| **Select database** | El `Data Source` creado en el paso 2.1 |
 | **Include columns** | ✅ |
 | **Query** | *conectado desde `LLM.Message`* |
 
 <p align="center"><img width="900" src="./images/image 40.png" alt="SQL query"/></p>
 
-##### 2.5 · Segundo `Prompt` — narrador con datos reales
+##### 2.6 · Segundo `Prompt` — narrador con datos reales
 
 Añade un segundo bloque **Prompt** que combine pregunta + SQL + datos:
 
@@ -1067,21 +1087,21 @@ Presiona **Save prompt** (crea automáticamente los nodos `{{...}}`) y conecta:
 | `{{sql}}` | `LLM.Message` |
 | `{{datos}}` | `SQL query.JSON` |
 
-##### 2.6 · Bloque `Agent`
+##### 2.7 · Bloque `Agent`
 
 Conecta `Prompt(narrador).Prompt message` → `Agent.Prompt`.
 
-##### 2.7 · Bloque `Chat output`
+##### 2.8 · Bloque `Chat output`
 
 Verifica que `Agent.Message` → `Chat output.Message`.
 
-##### 2.8 · Guardar y publicar
+##### 2.9 · Guardar y publicar
 
 **Save** → revisa el diagrama (debe coincidir con el esquema). **Publish** para dejarlo disponible.
 
 <p align="center"><img width="900" src="./images/image 38.png" alt="Flujo final"/></p>
 
-##### 2.9 · Probar el flujo completo
+##### 2.10 · Probar el flujo completo
 
 En el **Playground**:
 
