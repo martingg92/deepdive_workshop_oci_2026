@@ -942,6 +942,13 @@ Sección **OUTPUTS** → arrastra **Chat output** y conecta `Agent.Message` → 
 
 <p align="center"><img width="900" src="./images/image 36.png" alt="Playground P1"/></p>
 
+- <details>
+  <summary><strong>Referencia visual del flujo final</strong></summary>
+
+  <br>
+
+  ![Flujo final del laboratorio 3.6.1](images/img%2C%20flujo%20final%203-6-1.png)
+  </details>
 ---
 
 #### ⚽ Parte 2 · Flujo completo con Text‑to‑SQL
