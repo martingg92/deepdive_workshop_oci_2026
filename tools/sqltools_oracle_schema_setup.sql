@@ -1,61 +1,59 @@
 -- ================================================================
 -- DeepDive Workshop OCI 2026
--- SQL Tools Script (alternativo): esquema ORACLE para AIDP
--- Ejecutar primero como ADMIN en Database Actions -> SQL
+-- SQL Tools Script: schema ORACLELABS + ADMIN compatibility
+-- Execute as ADMIN in Database Actions -> SQL
 -- ================================================================
 SET SERVEROUTPUT ON;
 
--- 0) Crear usuario ORACLE (idempotente)
+-- 0) Create ORACLELABS user (idempotent)
 DECLARE
   v_exists NUMBER := 0;
 BEGIN
-  SELECT COUNT(*) INTO v_exists FROM dba_users WHERE username = 'ORACLE';
+  SELECT COUNT(*) INTO v_exists FROM dba_users WHERE username = 'ORACLELABS';
 
   IF v_exists = 0 THEN
-    EXECUTE IMMEDIATE 'CREATE USER ORACLE IDENTIFIED BY "Welcome123456$"';
-    EXECUTE IMMEDIATE 'ALTER USER ORACLE QUOTA UNLIMITED ON DATA';
+    EXECUTE IMMEDIATE 'CREATE USER ORACLELABS IDENTIFIED BY "Welcome123456$"';
+    EXECUTE IMMEDIATE 'ALTER USER ORACLELABS QUOTA UNLIMITED ON DATA';
   END IF;
 END;
 /
 
--- 1) Permisos base para trabajar objetos y sesiones
+-- 1) Base grants
 BEGIN
-  EXECUTE IMMEDIATE 'GRANT CREATE SESSION TO ORACLE';
-  EXECUTE IMMEDIATE 'GRANT CREATE TABLE TO ORACLE';
-  EXECUTE IMMEDIATE 'GRANT CREATE VIEW TO ORACLE';
-  EXECUTE IMMEDIATE 'GRANT CREATE SEQUENCE TO ORACLE';
+  EXECUTE IMMEDIATE 'GRANT CREATE SESSION TO ORACLELABS';
+  EXECUTE IMMEDIATE 'GRANT CREATE TABLE TO ORACLELABS';
+  EXECUTE IMMEDIATE 'GRANT CREATE VIEW TO ORACLELABS';
+  EXECUTE IMMEDIATE 'GRANT CREATE SEQUENCE TO ORACLELABS';
 EXCEPTION
   WHEN OTHERS THEN
-    IF SQLCODE != -1927 THEN -- ORA-01927: grant/revoke failed
+    IF SQLCODE != -1927 THEN
       RAISE;
     END IF;
 END;
 /
 
--- 2) Habilitar DBMS_CLOUD para el esquema ORACLE (si aplica en tu ADB)
+-- 2) Enable DBMS_CLOUD for ORACLELABS (if supported)
+-- Note: ENABLE_SCHEMA procedure may not be available in all versions/configurations
+-- BEGIN
+--   DBMS_CLOUD_ADMIN.ENABLE_SCHEMA(schema_name => 'ORACLELABS');
+-- EXCEPTION
+--   WHEN OTHERS THEN
+--     NULL;
+-- END;
+-- /
+
 BEGIN
-  DBMS_CLOUD_ADMIN.ENABLE_SCHEMA(schema_name => 'ORACLE');
+  EXECUTE IMMEDIATE 'GRANT EXECUTE ON DBMS_CLOUD TO ORACLELABS';
 EXCEPTION
   WHEN OTHERS THEN
-    -- Puede fallar si ya estaba habilitado o por versión/política.
-    -- Se continúa para no detener el script completo.
     NULL;
 END;
 /
 
-BEGIN
-  EXECUTE IMMEDIATE 'GRANT EXECUTE ON DBMS_CLOUD TO ORACLE';
-EXCEPTION
-  WHEN OTHERS THEN
-    -- En algunas versiones no aplica o ya viene concedido.
-    NULL;
-END;
-/
-
--- 3) Crear tabla en el esquema ORACLE sin cambiar de sesión
+-- 3) Create table in ORACLELABS
 BEGIN
   EXECUTE IMMEDIATE q'[
-    CREATE TABLE ORACLE.BRONZE_WC_MATCHES (
+    CREATE TABLE ORACLELABS.BRONZE_WC_MATCHES (
       key_id NUMBER,
       tournament_id VARCHAR2(50),
       tournament_name VARCHAR2(200),
@@ -97,17 +95,15 @@ BEGIN
   ]';
 EXCEPTION
   WHEN OTHERS THEN
-    IF SQLCODE != -955 THEN -- ORA-00955: name is already used
+    IF SQLCODE != -955 THEN
       RAISE;
     END IF;
 END;
 /
 
--- 4) Cargar CSV desde Object Storage al esquema ORACLE
+-- 4) Load CSV into ORACLELABS
 BEGIN
-  EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ORACLE';
-
-  -- Evita duplicados al re-ejecutar el script
+  EXECUTE IMMEDIATE 'ALTER SESSION SET CURRENT_SCHEMA = ORACLELABS';
   EXECUTE IMMEDIATE 'TRUNCATE TABLE BRONZE_WC_MATCHES';
 
   DBMS_CLOUD.COPY_DATA(
@@ -129,18 +125,34 @@ END;
 /
 COMMIT;
 
--- 5) Habilitar ORDS REST para el esquema ORACLE
+-- 5) Refresh ADMIN table from ORACLELABS
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE ADMIN.BRONZE_WC_MATCHES PURGE';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+/
+
+CREATE TABLE ADMIN.BRONZE_WC_MATCHES AS
+SELECT *
+FROM ORACLELABS.BRONZE_WC_MATCHES;
+
+COMMIT;
+
+-- 6) Enable ORDS REST for ORACLELABS
 BEGIN
   ORDS.ENABLE_SCHEMA(
     p_enabled             => TRUE,
-    p_schema              => 'ORACLE',
+    p_schema              => 'ORACLELABS',
     p_url_mapping_type    => 'BASE_PATH',
-    p_url_mapping_pattern => 'oracle',
+    p_url_mapping_pattern => 'oraclelabs',
     p_auto_rest_auth      => FALSE
   );
 EXCEPTION
   WHEN OTHERS THEN
-    -- Si ya estaba habilitado o cambia por versión, no detenemos el flujo.
     NULL;
 END;
 /
@@ -148,7 +160,7 @@ END;
 BEGIN
   ORDS.ENABLE_OBJECT(
     p_enabled        => TRUE,
-    p_schema         => 'ORACLE',
+    p_schema         => 'ORACLELABS',
     p_object         => 'BRONZE_WC_MATCHES',
     p_object_type    => 'TABLE',
     p_object_alias   => 'bronze_wc_matches',
@@ -161,33 +173,31 @@ END;
 /
 COMMIT;
 
--- 6) Validaciones rápidas
+-- 7) Quick validations
 SELECT username, account_status
 FROM dba_users
-WHERE username = 'ORACLE';
+WHERE username = 'ORACLELABS';
 
-SELECT owner, table_name, num_rows
-FROM all_tables
-WHERE owner = 'ORACLE'
-  AND table_name = 'BRONZE_WC_MATCHES';
+SELECT COUNT(*) AS total_oraclelabs
+FROM ORACLELABS.BRONZE_WC_MATCHES;
 
-SELECT COUNT(*) AS total_rows
-FROM ORACLE.BRONZE_WC_MATCHES;
+SELECT COUNT(*) AS total_admin
+FROM ADMIN.BRONZE_WC_MATCHES;
 
--- 7) URL REST al final de la ejecución
+-- 8) Print REST URLs
 DECLARE
   l_db_name VARCHAR2(128);
 BEGIN
   SELECT LOWER(name) INTO l_db_name FROM v$database;
 
   DBMS_OUTPUT.PUT_LINE('--- ORDS REST ---');
-  DBMS_OUTPUT.PUT_LINE('Base schema URL (estimada):');
-  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oracle/');
-  DBMS_OUTPUT.PUT_LINE('Recurso tabla:');
-  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oracle/bronze_wc_matches/');
-  DBMS_OUTPUT.PUT_LINE('Nota: si la URL no responde, toma el host de Database Actions y agrega /ords/oracle/');
+  DBMS_OUTPUT.PUT_LINE('Base schema URL (estimated):');
+  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/');
+  DBMS_OUTPUT.PUT_LINE('Table resource URL:');
+  DBMS_OUTPUT.PUT_LINE('https://' || l_db_name || '.adb.us-chicago-1.oraclecloudapps.com/ords/oraclelabs/bronze_wc_matches/');
+  DBMS_OUTPUT.PUT_LINE('If URL does not respond, take Database Actions host and append /ords/oraclelabs/');
 END;
 /
 
--- Sugerencia para AIDP: usar schema en MAYUSCULA
--- Schema esperado en catalogo externo: ORACLE
+-- AIDP schema hint
+-- Preferred schema in external catalog: ORACLELABS
