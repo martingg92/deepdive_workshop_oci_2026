@@ -266,7 +266,7 @@ Este script deja todo listo en una ejecución:
 - Habilita ORDS/REST para el esquema `ORACLELABS`.
 
 <details>
-  <summary>Ver SQL (clic para desplegar)</summary>
+  <summary> 👇👇Ver SQL (clic para desplegar)👇👇</summary>
 
   ```sql
 -- ================================================================
@@ -470,7 +470,7 @@ END;
   ```
   </details>
 
-Ejecuta con el botón verde **Run Statement**, seleccionando previamente el script.
+Antes de ejecutar, selecciona primero el código y luego usa el botón verde **Run Statement** o el botón **Run Script**.
 
 <p align="center"><img width="900" src="./images/acccea84-7850-450b-925f-a1edeb35a516" alt="Run SQL"/></p>
 
@@ -537,12 +537,14 @@ Al finalizar verás las tablas existentes en Autonomous con su esquema.
 > 💡 Si las tablas no aparecen en el catálogo en el primer intento, actualiza/refresca el catálogo y vuelve a validar.
 >
 > - <details>
->   <summary>Ver referencia visual para actualizar el catálogo</summary>
+>   <summary>👇👇👇Ver referencia visual para actualizar el catálogo</summary>
 >
 >   ![actualiza catalogo.png](images/actualiza%20catalogo.png)
 >   </details>
 
-<p align="center"><img width="400" src="./images/7e69ac71-f59a-49a9-a180-7dacf528a33a" alt="Schemas"/></p>
+
+![catalogoconoraclelabs.png](images/catalogoconoraclelabs.png)
+
 
 #### 🥈 Catálogo Silver (Plata) — Standard
 
