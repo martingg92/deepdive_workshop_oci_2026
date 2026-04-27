@@ -584,7 +584,7 @@ Los notebooks de este laboratorio están en la **raíz del repositorio** (al mis
 
 - [Descargar `session1-AIDP-ES.ipynb`](./session1-AIDP-ES.ipynb)
 - [Descargar `session2-AI_tradicional-ES.ipynb`](./session2-AI_tradicional-ES.ipynb)
-- [Descargar `session2-AI_tradicional-ES.ipynb`](./session3-Agents-ES.ipynb)
+- [Descargar `session3-Agents-ES.ipynb`](./session3-Agents-ES.ipynb)
 
 Después de descargarlos, súbelos al Workspace con el botón **Upload**.
 
