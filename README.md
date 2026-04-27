@@ -557,6 +557,8 @@ Al finalizar verás las tablas existentes en Autonomous con su esquema.
 
 <p align="center"><img width="500" src="./images/image 41.png" alt="Silver"/></p>
 
+![catalogoadd.png](images/catalogoadd.png)
+
 #### 🥇 Catálogo Gold (Oro) — Standard
 
 | Campo | Valor |
