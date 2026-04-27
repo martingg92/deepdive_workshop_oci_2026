@@ -584,6 +584,7 @@ Los notebooks de este laboratorio están en la **raíz del repositorio** (al mis
 
 - [Descargar `session1-AIDP-ES.ipynb`](./session1-AIDP-ES.ipynb)
 - [Descargar `session2-AI_tradicional-ES.ipynb`](./session2-AI_tradicional-ES.ipynb)
+- [Descargar `session2-AI_tradicional-ES.ipynb`](./session3-Agents-ES.ipynb)
 
 Después de descargarlos, súbelos al Workspace con el botón **Upload**.
 
@@ -618,6 +619,8 @@ El cluster debe quedar **Active** en el notebook:
 <img width="400" src="./images/ac673755-9172-4751-b9db-e974a39baa82" alt="Cluster status"/>
 &nbsp;&nbsp;
 <img width="400" src="./images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" alt="Cluster active"/>
+<img width="400" src="./images/image 46.png" alt="Cluster active"/>
+
 
 Repite el mismo proceso de upload para el archivo Jupyter de la segunda sesión.
 <p align="center">
