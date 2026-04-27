@@ -628,7 +628,29 @@ Con eso tendrás todos los notebooks necesarios para realizar las sesiones prác
 <p align="center">
 <img src="./images/ntbk2_todo.jpg" alt="Cluster active"/>
 
-Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
+
+### 2.6 Importación de librerías
+
+Una vez el cluster se encuentre creado, podemos seleccionar el cluster en el panel izquierdo de la plataforma AIDP y hacer click en lel panel Library.
+
+<p align="center">
+<img src="./images/image 43.png" alt="Cluster active"/>
+
+<p align="center">
+<img src="./images/image 44.png" alt="Cluster active"/>
+
+
+Allí podemos cargar el archivo requirements.txt que se encuentra en
+
+- [Descargar `requirements.txt`](./requirements.txt)
+
+Una vez se haya adjuntado el archivo, se iniciará un proceso de instalación de librerías en dos estados, Resolving e Installed.
+
+<p align="center">
+<img src="./images/image 45.png" alt="Cluster active"/>
+
+
+Cuando el estado sea installed, tendrás un entorno completamente configurado y puedes seguir las instrucciones de cada notebook junto con el instructor para ejecutar los laboratorios.
 
 Para ejecutar cada celda del notebook, haz clic en el botón **Play** o usa el atajo **Ctrl + Enter**.
 </p>
