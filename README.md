@@ -94,16 +94,10 @@ Al finalizar, serás capaz de:
 - [2.1 Ingesta en Autonomous AI Database](#21-ingesta-en-autonomous-ai-database)
 - [2.2 Ingesta vía AIDP](#22-ingesta-vía-aidp)
 - [2.3 Creación de catálogos (Bronze / Silver / Gold)](#23-creación-de-catálogos-bronze--silver--gold)
-- [2.4 Importación de notebooks al workspace](#24-importación-de-notebooks-al-workspace)
-- [2.5 Creación y asociación del cluster](#25-creación-y-asociación-del-cluster)
-
-### 🤖 Módulo 3 · AI Database Private Agent Factory
-- [3.1 Creación de la red (VCN)](#31-creación-de-la-red-vcn)
-- [3.2 Despliegue desde OCI Marketplace](#32-despliegue-desde-oci-marketplace)
-- [3.3 Registro inicial y configuración de modelos](#33-registro-inicial-y-configuración-de-modelos)
-- [3.4 Navegación por la plataforma](#34-navegación-por-la-plataforma)
-- [3.5 Lab · Data Analysis Agent (Text‑to‑SQL)](#35-lab--data-analysis-agent-text-to-sql)
-- [3.6 Lab · Agent Builder — Narrador futbolístico](#36-lab--agent-builder--narrador-futbolístico)
+- [2.4 Creación del cluster](#24-creación-del-cluster)
+- [2.5 Importación de librerías](#25-importación-de-librerías)
+- [2.6 Importación de notebooks al workspace](#26-importación-de-notebooks-al-workspace)
+- [2.7 Creación y asociación del cluster](#27-creación-y-asociación-del-cluster)
 
 ### 🛠️ Soporte
 - [Troubleshooting de notebooks y catálogo externo](./TROUBLESHOOTING.md)
